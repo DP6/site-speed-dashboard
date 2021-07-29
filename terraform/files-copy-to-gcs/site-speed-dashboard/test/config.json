@@ -1,0 +1,147 @@
+{
+  "BQ_DATASET_ID": "site_speed_dashboard",
+  "BQ_TABLE_ID_PSI_METRICS": "psi_metrics_results",
+  "BQ_SCHEMA_PSI_METRICS": [
+    {
+      "mode": "NULLABLE",
+      "name": "Data",
+      "type": "DATE"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Brand",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Page",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Site",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Device",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Score",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_FCP",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_FMP",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_FCPUIdle",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_SpeedIndex",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_TTI",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_InputLatency",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_TTFB",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_RenderBlocking",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_TBT",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_CLS",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_LCP",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_CLS_Category",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_CLS",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_FCP_Category",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_FCP",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_FID_Category",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_FID",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_LCP_Category",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_LCP",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_Overall_Category",
+      "type": "STRING"
+    }
+  ],
+  "URLS": [
+    {
+      "URL": "https://www.dp6.com.br/",
+      "brand": "DP6",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": false
+      }
+    }
+  ]
+}

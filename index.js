@@ -1,11 +1,12 @@
 const { BigQuery } = require('@google-cloud/bigquery');
 const { Storage } = require('@google-cloud/storage');
+const psi = require('psi');
 const BUCKET_GCS = process.env.PROJECT_BUCKET_GCS;
-const PROJECT_FOLDER = 'project-name';
+const PROJECT_FOLDER = 'base';
 let projectConfig = {};
 let debugging = false;
 
-const templateCf = async (req, res) => {
+const getUrls = async (req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Credentials', 'true');
 
@@ -17,35 +18,77 @@ const templateCf = async (req, res) => {
     res.sendStatus(204);
   } else {
     projectConfig = await loadProjectConfig();
-    const deparaSchema = projectConfig.DEPARA_SCHEMA;
     const query = req.query;
     debugging = query.debugging; //Se true habilita o log do json de validação
     delete query.debugging;
 
-    // Verificação se o identificado de schema foi passado por parâmetro
-    if (!query[projectConfig.PARAM_QUERY_STRING_SCHEMA]) {
-      res
-        .status(400)
-        .send(
-          `${debugging ? 'debugging' : ''}${
-            projectConfig.PARAM_QUERY_STRING_SCHEMA
-          } não informado como parâmetro queryString`
-        );
-      return;
-    }
+    let desktop = await getUrls_desktop();
+    let mobile = await getUrls_mobile();
 
     trace('PROJECT', 'Tem configuração');
 
-    let result = [];
-    result = result.concat(
-      createSchemaBq([{ name: 'teste cf' }], query, `${query[projectConfig.PARAM_QUERY_STRING_SCHEMA]}:`)
-    );
-
-    trace('RESULT VALID', result);
-    insertRowsAsStream(result);
-    res.status(200).send(debugging ? { debugging: debugging, result: result } : 'sucesso!');
+    trace('RESULT VALID');
+    res
+      .status(200)
+      .send(debugging ? { debugging: debugging, resultDesktop: desktop, resultMobile: mobile } : 'sucesso!');
   }
 };
+
+async function makeRequest(urls, strategy) {
+  // const psi = new PSIApiUtil(PSI_API_KEY);
+  // let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheets.base);
+  const psiResult = [];
+  const date = new Date().toISOString().split('T')[0];
+
+  const psiRuns = urls.map(async ({ URL, brand, page }) => {
+    try {
+      trace(`Iniciando requisição: ${brand} ${strategy}`);
+      let psi_response = await psi(URL, { strategy: strategy, key: 'AIzaSyDMowLrCL6VBPQuGwjK7OKAX4kGHmhYqxk' });
+      if (psi_response) {
+        let lighthouseResult = psi_response.data.lighthouseResult;
+        psiResult.push({
+          Data: date,
+          Brand: brand,
+          Page: page,
+          Site: URL,
+          Device: lighthouseResult.configSettings.emulatedFormFactor,
+          Score: lighthouseResult.categories.performance.score,
+          LAB_FCP: lighthouseResult.audits['first-contentful-paint']?.numericValue || null,
+          LAB_FMP: lighthouseResult.audits['first-meaningful-paint']?.numericValue || null,
+          LAB_FCPUIdle: lighthouseResult.audits['first-cpu-idle']?.numericValue || null,
+          LAB_SpeedIndex: lighthouseResult.audits['speed-index']?.numericValue || null,
+          LAB_TTI: lighthouseResult.audits['interactive']?.numericValue || null,
+          LAB_InputLatency: lighthouseResult.audits['estimated-input-latency']?.numericValue || null,
+          LAB_TTFB: lighthouseResult.audits['server-response-time']?.numericValue || null,
+          LAB_RenderBlocking: lighthouseResult.audits['render-blocking-resources']?.numericValue || null,
+          LAB_TBT: lighthouseResult.audits['total-blocking-time']?.numericValue || null,
+          LAB_CLS: lighthouseResult.audits['cumulative-layout-shift']?.numericValue || null,
+          LAB_LCP: lighthouseResult.audits['largest-contentful-paint']?.numericValue || null,
+        });
+      }
+    } catch (error) {
+      trace(JSON.stringify(error));
+    }
+  });
+  await Promise.all(psiRuns);
+  return psiResult;
+}
+
+async function getUrls_desktop(strategy = 'desktop') {
+  const base = await loadProjectConfig();
+  const urls = base.URLS.filter(({ strategy }) => !!strategy.desktop);
+  let desktopResults = await makeRequest(urls, 'desktop');
+  insertRowsAsStream(desktopResults);
+  return desktopResults;
+}
+
+async function getUrls_mobile(strategy = 'mobile') {
+  const base = await loadProjectConfig();
+  const urls = base.URLS.filter(({ strategy }) => !!strategy.mobile);
+  let mobileResults = await makeRequest(urls, 'mobile');
+  insertRowsAsStream(mobileResults);
+  return mobileResults;
+}
 
 /**
  * Monta as linhas para serem inseridas no BQ
@@ -85,7 +128,7 @@ function addTimestamp(data) {
 async function insertRowsAsStream(data) {
   const bigquery = new BigQuery();
   const options = {
-    schema: projectConfig.BQ_SCHEMA_RAWDATA,
+    schema: projectConfig.BQ_SCHEMA_PSI_METRICS,
     skipInvalidRows: true,
     ignoreUnknownValues: true,
   };
@@ -94,7 +137,7 @@ async function insertRowsAsStream(data) {
   // Insert data into a table
   await bigquery
     .dataset(projectConfig.BQ_DATASET_ID)
-    .table(projectConfig.BQ_TABLE_ID_RAWDATA)
+    .table(projectConfig.BQ_TABLE_ID_PSI_METRICS)
     .insert(data, options, insertHandler);
 
   console.log(`Inserted ${data.length} rows`);
@@ -134,5 +177,5 @@ module.exports = {
   addTimestamp,
   loadProjectConfig,
   insertRowsAsStream,
-  templateCf,
+  getUrls,
 };

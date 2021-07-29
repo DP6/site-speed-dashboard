@@ -7,7 +7,7 @@ const requestRetry = require('requestretry');
 const uuid = require('uuid');
 
 const PORT = process.env.PORT || 8080;
-process.env.PROJECT_BUCKET_GCS = 'teste-raft-suite'; //bucket com arquivo de configuração publico
+process.env.PROJECT_BUCKET_GCS = 'site_speed_dashboard_test'; //bucket com arquivo de configuração publico
 const BASE_URL = `http://localhost:${PORT}`;
 const cwd = path.join(__dirname, './../../');
 let ffProc;
@@ -18,7 +18,7 @@ describe('Execução cloud function template', async () => {
     // exec's 'timeout' param won't kill children of "shim" /bin/sh process
     // Workaround: include "& sleep <TIMEOUT>; kill $!" in executed command
     ffProc = execPromise(
-      `functions-framework --target=templateCf --signature-type=http --port ${PORT} & sleep 8; kill $!`,
+      `functions-framework --target=getUrls --signature-type=http --port ${PORT} & sleep 20; kill $!`,
       { shell: true, cwd }
     );
   });
@@ -28,24 +28,17 @@ describe('Execução cloud function template', async () => {
     await ffProc;
   });
 
-  it('Deve retornar http status code 400, quando o parâmentro de depara não é informado', async () => {
-    const response = await requestEndpoint();
-
-    assert.strictEqual(response.statusCode, 400);
-    expect(response.body).that.contains('não informado como parâmetro queryString');
-  });
-
   it('Deve retornar a identificação que o modo debugging está ativado', async () => {
     const response = await requestEndpoint();
 
-    assert.strictEqual(response.statusCode, 400);
+    assert.strictEqual(response.statusCode, 200);
     expect(response.body).that.contains('debugging');
   });
 });
 
 async function requestEndpoint() {
   return requestRetry({
-    url: `${BASE_URL}/templateCf?debugging=true`,
+    url: `${BASE_URL}/?debugging=true`,
     method: 'POST',
     body: { attr: 'sss' },
     retryDelay: 200,

@@ -1,0 +1,399 @@
+{
+  "BQ_DATASET_ID": "site_speed_dashboard",
+  "BQ_TABLE_ID_PSI_METRICS": "psi_metrics_results",
+  "BQ_SCHEMA_PSI_METRICS": [
+    {
+      "mode": "NULLABLE",
+      "name": "Data",
+      "type": "DATE"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Brand",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Page",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Site",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Device",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Score",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_FCP",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_FMP",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_FCPUIdle",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_SpeedIndex",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_TTI",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_InputLatency",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_TTFB",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_RenderBlocking",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_TBT",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_CLS",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Lab_LCP",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_CLS_Category",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_CLS",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_FCP_Category",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_FCP",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_FID_Category",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_FID",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_LCP_Category",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_LCP",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "Loading_Overall_Category",
+      "type": "STRING"
+    }
+  ],
+  "URLS": [
+    {
+      "URL": "https://www.brastemp.com.br/",
+      "brand": "Brastemp",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.brastemp.com.br/atendimento",
+      "brand": "Brastemp",
+      "page": "Atendimento",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.compracerta.com.br/",
+      "brand": "Compra Certa",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://loja.consul.com.br/",
+      "brand": "Consul",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.kitchenaid.com.br/",
+      "brand": "KitchenAid",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://loja.electrolux.com.br/",
+      "brand": "Electrolux",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.magazineluiza.com.br/",
+      "brand": "Magazine Luiza",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.boticario.com.br/",
+      "brand": "Boticário",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.extra.com.br/",
+      "brand": "Extra",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.submarino.com.br/",
+      "brand": "Submarino",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.amazon.com/",
+      "brand": "Amazon",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.shoptime.com.br/",
+      "brand": "Shoptime",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.americanas.com.br/",
+      "brand": "Americanas",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.mercadolivre.com.br/",
+      "brand": "Mercado Livre",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.casasbahia.com.br/",
+      "brand": "Casas Bahia",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.pontofrio.com.br/",
+      "brand": "Ponto Grio",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.shopclub.com.br/",
+      "brand": "Shop Club",
+      "page": "Home",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.brastemp.com.br/geladeira-brastemp-inverse-maxi-573-litros-bre80ak/p",
+      "brand": "Brastemp",
+      "page": "PDP",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://loja.consul.com.br/geladeira-consul-frost-free-duplex-397-litros-evox-com-freezer-embaixo/p",
+      "brand": "Consul",
+      "page": "PDP",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.compracerta.com.br/fogao-brastemp-5-bocas-cor-inox-com-botoes-removiveis-e-exclusivo-aro-protetor---bfs5ncr-2004149/p",
+      "brand": "Compra Certa",
+      "page": "PDP",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.kitchenaid.com.br/processador-de-alimentos-2-1l-empire-red/p",
+      "brand": "KitchenAid",
+      "page": "PDP",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.brastemp.com.br/eletrodomesticos/geladeira---refrigerador",
+      "brand": "Brastemp",
+      "page": "PDC",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://loja.consul.com.br/eletrodomesticos/geladeira---refrigerador?",
+      "brand": "Consul",
+      "page": "PDC",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.kitchenaid.com.br/eletroportateis/batedeira",
+      "brand": "KitchenAid",
+      "page": "PDC",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.compracerta.com.br/eletrodomesticos/geladeira---refrigerador",
+      "brand": "Compra Certa",
+      "page": "PDC",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.brastemp.com.br/busca?map=fogão",
+      "brand": "Brastemp",
+      "page": "Busca",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://busca.consul.com.br/busca?q=fogão",
+      "brand": "Consul",
+      "page": "Busca",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.compracerta.com.br/fogao?q=fogão",
+      "brand": "Compra Certa",
+      "page": "Busca",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    },
+    {
+      "URL": "https://www.kitchenaid.com.br/chaleira",
+      "brand": "KitchenAid",
+      "page": "Busca",
+      "strategy": {
+        "desktop": true,
+        "mobile": true
+      }
+    }
+  ]
+}

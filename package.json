@@ -1,11 +1,11 @@
 {
-  "name": "template-js-cloudfunction-with-terraform",
+  "name": "site-speed-dashboard",
   "private": "true",
   "version": "0.1.0",
   "description": "Google Cloud Function",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DP6/template-js-cloudfunction-with-terraform.git"
+    "url": "https://github.com/DP6/site-speed-dashboard.git"
   },
   "main": "index.js",
   "scripts": {
@@ -13,19 +13,19 @@
     "lint-md": "remark .",
     "lint-prettier": "npx prettier --check . || exit 0",
     "lint": "npm run lint-md && npm run lint-prettier",
-    "unit-test": "mocha ./test/unit  -timeout 8000",
-    "integration-test": "mocha ./test/integration --timeout=16000 --exit",
+    "unit-test": "mocha ./test/unit  -timeout 80000",
+    "integration-test": "mocha ./test/integration --timeout=32000 --exit",
     "all-test": "npm run integration-test && npm run unit-test",
     "test": "npm -- run all-test",
     "coverage": "nyc --reporter=lcov --reporter=cobertura npm run unit-test",
     "docs": "jsdoc2md index.js > docs/index.md",
-    "local": "functions-framework --target=templateCf --signature-type=http --port 8080"
+    "local": "functions-framework --target=getUrls --signature-type=http --port 8080"
   },
   "author": "DP6",
   "contributors": [
     {
-      "name": "Joaquim Neto",
-      "email": "contato@joaquimsn.com"
+      "name": "Danilo Oliveira",
+      "email": "oliveira.danilosantos@outlook.com"
     }
   ],
   "license": "ISC",
@@ -33,9 +33,9 @@
     "dp6"
   ],
   "bugs": {
-    "url": "https://github.com/DP6/template-js-cloudfunction-with-terraform/issues"
+    "url": "https://github.com/DP6/site-speed-dashboard/issues"
   },
-  "homepage": "https://github.com/DP6/template-js-cloudfunction-with-terraform#readme",
+  "homepage": "https://github.com/DP6/site-speed-dashboard#readme",
   "release": {
     "branch": "master",
     "plugins": [
@@ -54,7 +54,8 @@
   },
   "dependencies": {
     "@google-cloud/bigquery": "^5.6.0",
-    "@google-cloud/storage": "^5.8.4"
+    "@google-cloud/storage": "^5.8.4",
+    "psi": "^4.1.0"
   },
   "devDependencies": {
     "@google-cloud/functions-framework": "^1.7.1",

@@ -38,11 +38,11 @@ resource "google_bigquery_dataset" "dataset" {
   }
 }
 
-resource "google_bigquery_table" "project-name-raw" {
+resource "google_bigquery_table" "psi_metrics_results" {
   dataset_id          = local.final_dataset_id
-  table_id            = local.bq_table_id_raw
-  description         = "Descrição da tabela"
-  schema              = file("bigquery/schema_project_name_raw.json")
+  table_id            = local.bq_table_psi_metrics_results
+  description         = "Tabela com métricas coletadas do PageSpeed Insights"
+  schema              = file("bigquery/psi_metrics_results.json")
   clustering          = ["data"]
   expiration_time     = null
   deletion_protection = false
@@ -58,62 +58,8 @@ resource "google_bigquery_table" "project-name-raw" {
   depends_on = [google_bigquery_dataset.dataset]
 }
 
-resource "google_bigquery_table" "project-name-aggregation" {
-  dataset_id          = local.final_dataset_id
-  table_id            = local.bq_table_id_aggregation
-  description         = "Descrição da tabela de consolidação"
-  schema              = file("bigquery/schema_project_name_aggregation.json")
-  clustering          = ["data"]
-  expiration_time     = null
-  deletion_protection = false
-  time_partitioning {
-    type                     = "DAY"
-    field                    = "data"
-    require_partition_filter = false
-    expiration_ms            = null
-  }
-  labels = {
-    produto = local.project_name
-  }
-  depends_on = [google_bigquery_dataset.dataset]
-}
 
-data "template_file" "view_aggregation" {
-  template = file("bigquery/query_view_aggregation.sql")
-  vars = {
-    table_name = "${var.project_id}.${local.final_dataset_id}.${local.bq_table_id_raw}"
-  }
-}
 
-resource "google_bigquery_table" "view_aggregation" {
-  dataset_id          = local.final_dataset_id
-  table_id            = local.bq_view_aggregation
-  description         = "View com os dados agregados da tabela ${local.bq_table_id_raw}"
-  deletion_protection = false
-  view {
-    query          = data.template_file.view_aggregation.rendered
-    use_legacy_sql = false
-  }
-  labels = {
-    produto = local.project_name
-  }
-  depends_on = [google_bigquery_dataset.dataset, google_bigquery_table.project-name-raw]
-}
-
-resource "google_bigquery_data_transfer_config" "query_config_aggregation" {
-  depends_on = [google_bigquery_table.project-name-aggregation]
-
-  display_name           = "consolidate_view_aggregation"
-  location               = var.location
-  data_source_id         = "scheduled_query"
-  schedule               = "every day 07:00"
-  destination_dataset_id = google_bigquery_table.project-name-aggregation.dataset_id
-  params = {
-    destination_table_name_template = local.bq_table_id_aggregation
-    write_disposition               = "WRITE_APPEND"
-    query                           = "SELECT * FROM ${var.project_id}.${local.final_dataset_id}.${local.bq_view_aggregation}"
-  }
-}
 
 ##################################
 #Configurações Cloud Function

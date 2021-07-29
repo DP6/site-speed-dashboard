@@ -3,12 +3,11 @@
 #######################################
 locals {
   cf_name                 = "${var.project_prefix}-project-name"
-  project_name            = "project-name"
-  cf_entry_point          = "templateCf"
-  bq_table_id_raw         = "project_name_raw"
-  bq_view_aggregation     = "project_name_aggregation"
-  bq_table_id_aggregation = "project_name_aggregation"
-  git_zip_souce_code      = "https://codeload.github.com/DP6/project-name/zip/"
+  project_name            = "site-speed-dashboard"
+  cf_entry_point          = "getUrls"
+  bq_table_psi_metrics_results         = "psi_metrics_results"
+  bq_table_psi_crux_table          = "crux_table"
+  bq_table_psi_suggestions_results         = "psi_suggestions_results"
   final_dataset_id        = "${var.project_prefix}_${var.dataset_id}"
   final_bucket_name       = "${var.project_prefix}-${var.bucket_name}"
 }
@@ -19,7 +18,7 @@ locals {
 variable "bucket_name" {
   type        = string
   description = "Google Cloud Storage Bucket to create, o valor informado será usado em conjunto com o project_prefix para formar o nome do bucket"
-  default     = "project-name"
+  default     = "site_speed_dashboard"
 }
 
 variable "project_prefix" {
@@ -34,7 +33,7 @@ variable "project_prefix" {
 variable "dataset_id" {
   type        = string
   description = "Google Cloud BigQuery dataset to create recomendado raft_suite"
-  default     = "raft_suite"
+  default     = "site_speed_dashboard"
 }
 
 variable "project_version" {

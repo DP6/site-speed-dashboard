@@ -11,14 +11,14 @@ const { assert } = require('chai');
 const chai = require('chai');
 const expect = chai.expect;
 const uuid = require('uuid');
-process.env.PROJECT_BUCKET_GCS = 'teste-raft-suite';
+process.env.PROJECT_BUCKET_GCS = 'site_speed_dashboard_test';
 
 const cloudFunction = require('./../../index');
 
 describe('Template Cloud Function', () => {
-  describe('#templateCf()', () => {
+  describe('#getUrls()', () => {
     it('Deve ser uma function', () => {
-      assert.isFunction(cloudFunction.templateCf);
+      assert.isFunction(cloudFunction.getUrls);
     });
     it('Deve processar req e resp retornando http status code 400', async () => {
       const req = {
@@ -42,7 +42,7 @@ describe('Template Cloud Function', () => {
         },
       };
 
-      await cloudFunction.templateCf(req, res);
+      await cloudFunction.getUrls(req, res);
       assert.strictEqual(tmpResponse.status, 400);
     });
     it('Deve processar req e resp retornando http status code 200', async () => {
@@ -64,7 +64,7 @@ describe('Template Cloud Function', () => {
         send: tmpFunctionStatus,
       };
 
-      await cloudFunction.templateCf(req, res);
+      await cloudFunction.getUrls(req, res);
       assert.strictEqual(tmpResponse.status, 204);
     });
     it('Deve processar req e resp retornando http status code 200', async () => {
@@ -91,7 +91,7 @@ describe('Template Cloud Function', () => {
         },
       };
 
-      await cloudFunction.templateCf(req, res);
+      await cloudFunction.getUrls(req, res);
       assert.strictEqual(tmpResponse.status, 200);
     });
   });
@@ -132,7 +132,7 @@ describe('Template Cloud Function', () => {
 
   describe('#loadProjectConfig()', () => {
     it('Deve retornar o objeto de configuração', async () => {
-      expect(await cloudFunction.loadProjectConfig()).to.have.own.property('DEPARA_SCHEMA');
+      expect(await cloudFunction.loadProjectConfig()).to.have.own.property('URLS');
     });
   });
 });
