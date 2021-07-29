@@ -1,5 +1,9 @@
 [
   {
+    "name": "data",
+    "type": "DATE"
+  },
+  {
     "name": "year_month",
     "type": "STRING"
   },

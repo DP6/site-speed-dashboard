@@ -8,12 +8,12 @@
   <a href="#badge">
     <img alt="semantic-release" src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg">
   </a>
-  <a href="https://www.codacy.com/gh/DP6/{{token-codacy}}/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DP6/{{repo}}&amp;utm_campaign=Badge_Coverage"><img alt="Code coverage" src="https://app.codacy.com/project/badge/Coverage/{{token-codacy}}"/></a>
+  <a href="https://www.codacy.com/gh/DP6/3ef6b0f421634cb881539914e7fa59f1/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DP6/{{repo}}&amp;utm_campaign=Badge_Coverage"><img alt="Code coverage" src="https://app.codacy.com/project/badge/Coverage/3ef6b0f421634cb881539914e7fa59f1"/></a>
   <a href="#badge">
     <img alt="Test" src="https://github.com/dp6/site-speed-dashboard/actions/workflows/test.yml/badge.svg">
   </a>
   <a href="https://www.codacy.com/gh/DP6/site-speed-dashboard/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DP6/site-speed-dashboard&amp;utm_campaign=Badge_Grade">
-    <img alt="Code quality" src="https://app.codacy.com/project/badge/Grade/{{token-codacy}}">
+    <img alt="Code quality" src="https://app.codacy.com/project/badge/Grade/3ef6b0f421634cb881539914e7fa59f1">
   </a>
 </p>
 
@@ -37,26 +37,6 @@
 -->
 
 {{Texto introdutorio}}
-
-Respositório template para CF utilizando
-
-- Deploy com terraform de (Arquivos para GCS, Tabelas BQ e CF)
-- Arquivo de configuração dinamico para CF
-- Testes unitários
-- Teste de integração
-- Formatação de código
-- Geração de documentação das funcões javascrip
-- Criação de release automatica
-- Cobertura de código
-- Analise de qualidade de código
-- Github pages com template do github.dp6.io
-
-## Renomeando arquivos
-
-- Substituir o nome `site-speed-dashboard` pelo nome do novo repositório criado no arquivo package.json
-- Substituir a chave `{{nome_projeto}}` no arquivo `_config.yml` com o nome do projeto em linguagem natural, para ser usado como titulo da página no site.
-- As variáveis do terraform e e arquivos de exemplo para criação das tabelas no BQ usa a vável `project_name` que pode ser alterado a critério do usuário.
-- No README.md as chaves `{{token-codacy}}` e `{{repo}}` localizada no cabecalho do documento dentro do comentário nas linhas 20-37 deve ser substituida pelo token do projeto no codacy.io e novo nome do repositório.
 
 ## Entendendo os running do NPM
 
@@ -104,6 +84,7 @@ git clone https://github.com/DP6/site-speed-dashboard.git
 Para fazer deploy no GCP usando o Terraform, o utilize o shell script terraform_deploy
 
 ```console
+cd site-speed-dashboard/
 sh terraform_deploy.sh
 ```
 
