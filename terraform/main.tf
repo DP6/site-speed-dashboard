@@ -55,7 +55,7 @@ resource "google_bigquery_table" "psi_metrics_results" {
   labels = {
     produto = local.project_name
   }
-  depends_on = [google_bigquery_dataset.dataset]
+  depends_on = [google_bigquery_dataset.site_speed_dashboard]
 }
 
 resource "google_bigquery_table" "crux_table" {
@@ -75,7 +75,7 @@ resource "google_bigquery_table" "crux_table" {
   labels = {
     produto = local.project_name
   }
-  depends_on = [google_bigquery_dataset.dataset]
+  depends_on = [google_bigquery_dataset.site_speed_dashboard]
 }
 
 resource "google_bigquery_table" "psi_suggestions_results" {
@@ -95,7 +95,7 @@ resource "google_bigquery_table" "psi_suggestions_results" {
   labels = {
     produto = local.project_name
   }
-  depends_on = [google_bigquery_dataset.dataset]
+  depends_on = [google_bigquery_dataset.site_speed_dashboard]
 }
 
 
