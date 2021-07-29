@@ -1,4 +1,4 @@
-# template-js-cloudfunction-with-terraform
+# Site Speed Dashboard
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/DP6/templates-centro-de-inovacoes/main/public/images/centro_de_inovacao_dp6.png" height="100px" />
@@ -10,9 +10,9 @@
   </a>
   <a href="https://www.codacy.com/gh/DP6/{{token-codacy}}/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DP6/{{repo}}&amp;utm_campaign=Badge_Coverage"><img alt="Code coverage" src="https://app.codacy.com/project/badge/Coverage/{{token-codacy}}"/></a>
   <a href="#badge">
-    <img alt="Test" src="https://github.com/dp6/template-js-cloudfunction-with-terraform/actions/workflows/test.yml/badge.svg">
+    <img alt="Test" src="https://github.com/dp6/site-speed-dashboard/actions/workflows/test.yml/badge.svg">
   </a>
-  <a href="https://www.codacy.com/gh/DP6/template-js-cloudfunction-with-terraform/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DP6/template-js-cloudfunction-with-terraform&amp;utm_campaign=Badge_Grade">
+  <a href="https://www.codacy.com/gh/DP6/site-speed-dashboard/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DP6/site-speed-dashboard&amp;utm_campaign=Badge_Grade">
     <img alt="Code quality" src="https://app.codacy.com/project/badge/Grade/{{token-codacy}}">
   </a>
 </p>
@@ -51,24 +51,12 @@ Respositório template para CF utilizando
 - Analise de qualidade de código
 - Github pages com template do github.dp6.io
 
-# Preparando o repositório
-
-WIP
-
-## Variáveis de ambiente no github (secrets)
-
-WIP
-
 ## Renomeando arquivos
 
-- Substituir o nome `template-js-cloudfunction-with-terraform` pelo nome do novo repositório criado no arquivo package.json
+- Substituir o nome `site-speed-dashboard` pelo nome do novo repositório criado no arquivo package.json
 - Substituir a chave `{{nome_projeto}}` no arquivo `_config.yml` com o nome do projeto em linguagem natural, para ser usado como titulo da página no site.
 - As variáveis do terraform e e arquivos de exemplo para criação das tabelas no BQ usa a vável `project_name` que pode ser alterado a critério do usuário.
 - No README.md as chaves `{{token-codacy}}` e `{{repo}}` localizada no cabecalho do documento dentro do comentário nas linhas 20-37 deve ser substituida pelo token do projeto no codacy.io e novo nome do repositório.
-
-## Entendendo o terraform
-
-WIP
 
 ## Entendendo os running do NPM
 
@@ -110,7 +98,7 @@ _Observação:_ Utilizando o ambiente no [Google Cloud Shell](https://cloud.goog
 Clone o projeto do github para sua máquina local ou Cloud Shell
 
 ```console
-git clone https://github.com/DP6/{{repo}}.git
+git clone https://github.com/DP6/site-speed-dashboard.git
 ```
 
 Para fazer deploy no GCP usando o Terraform, o utilize o shell script terraform_deploy
@@ -131,7 +119,7 @@ Só serão aceitas contribuições que estiverem seguindo os seguintes requisito
 
 ### Api Docs
 
-- [Index.js](https://github.com/dp6/template-js-cloudfunction-with-terraform/blob/master/docs/index.md)
+- [Index.js](https://github.com/dp6/site-speed-dashboard/blob/master/docs/index.md)
 
 ## Suporte:
 
