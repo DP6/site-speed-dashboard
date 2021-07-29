@@ -134,7 +134,7 @@
       "type": "STRING"
     }
   ],
-  "BQ_SCHEMA_PSI_SUGGESTIONS":[
+  "BQ_SCHEMA_PSI_SUGGESTIONS": [
     {
       "name": "data",
       "type": "DATE"
@@ -175,7 +175,7 @@
       "name": "suggestion_type",
       "type": "STRING"
     }
-  ],  
+  ],
   "URLS": [
     {
       "URL": "https://www.dp6.com.br",
