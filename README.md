@@ -1,5 +1,7 @@
 # Site Speed Dashboard
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2cb35a94bea74566989b61dff614fd64)](https://app.codacy.com/gh/DP6/site-speed-dashboard?utm_source=github.com&utm_medium=referral&utm_content=DP6/site-speed-dashboard&utm_campaign=Badge_Grade_Settings)
+
 <div align="center">
 <img src="https://raw.githubusercontent.com/DP6/templates-centro-de-inovacoes/main/public/images/centro_de_inovacao_dp6.png" height="100px" />
 </div>
