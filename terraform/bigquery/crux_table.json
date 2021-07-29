@@ -1,0 +1,186 @@
+[
+  {
+    "name": "year_month",
+    "type": "STRING"
+  },
+  {
+    "name": "start",
+    "type": "NUMERIC"
+  },
+  {
+    "name": "ended",
+    "type": "NUMERIC"
+  },
+  {
+    "name": "form",
+    "type": "STRING"
+  },
+  {
+    "name": "origin",
+    "type": "STRING"
+  },
+  {
+    "name": "connection",
+    "type": "STRING"
+  },
+  {
+    "name": "fcp_density",
+    "type": "FLOAT"
+  },
+  {
+    "name": "lcp_density",
+    "type": "FLOAT"
+  },
+  {
+    "name": "dcl_density",
+    "type": "FLOAT"
+  },
+  {
+    "name": "onload_density",
+    "type": "FLOAT"
+  },
+  {
+    "name": "fp_density",
+    "type": "FLOAT"
+  },
+  {
+    "name": "fid_density",
+    "type": "FLOAT"
+  },
+  {
+    "name": "ttfb_density",
+    "type": "FLOAT"
+  },
+  {
+    "name": "cls_density",
+    "type": "FLOAT"
+  },
+  {
+    "name": "good_lcp",
+    "type": "FLOAT"
+  },
+  {
+    "name": "poor_lcp",
+    "type": "FLOAT"
+  },
+  {
+    "name": "average_lcp",
+    "type": "FLOAT"
+  },
+  {
+    "name": "good_fp",
+    "type": "FLOAT"
+  },
+  {
+    "name": "poor_fp",
+    "type": "FLOAT"
+  },
+  {
+    "name": "average_fp",
+    "type": "FLOAT"
+  },
+  {
+    "name": "good_onload",
+    "type": "FLOAT"
+  },
+  {
+    "name": "poor_onload",
+    "type": "FLOAT"
+  },
+  {
+    "name": "average_onload",
+    "type": "FLOAT"
+  },
+  {
+    "name": "good_fcp",
+    "type": "FLOAT"
+  },
+  {
+    "name": "poor_fcp",
+    "type": "FLOAT"
+  },
+  {
+    "name": "average_fcp",
+    "type": "FLOAT"
+  },
+  {
+    "name": "good_dcl",
+    "type": "FLOAT"
+  },
+  {
+    "name": "poor_dcl",
+    "type": "FLOAT"
+  },
+  {
+    "name": "average_dcl",
+    "type": "FLOAT"
+  },
+  {
+    "name": "good_fid",
+    "type": "FLOAT"
+  },
+  {
+    "name": "poor_fid",
+    "type": "FLOAT"
+  },
+  {
+    "name": "average_fid",
+    "type": "FLOAT"
+  },
+  {
+    "name": "good_cls",
+    "type": "FLOAT"
+  },
+  {
+    "name": "poor_cls",
+    "type": "FLOAT"
+  },
+  {
+    "name": "average_cls",
+    "type": "FLOAT"
+  },
+  {
+    "name": "good_ttfb",
+    "type": "FLOAT"
+  },
+  {
+    "name": "poor_ttfb",
+    "type": "FLOAT"
+  },
+  {
+    "name": "average_ttfb",
+    "type": "FLOAT"
+  },
+  {
+    "name": "phone",
+    "type": "FLOAT"
+  },
+  {
+    "name": "desktop",
+    "type": "FLOAT"
+  },
+  {
+    "name": "tablet",
+    "type": "FLOAT"
+  },
+  {
+    "name": "fourG",
+    "type": "FLOAT"
+  },
+  {
+    "name": "threeG",
+    "type": "FLOAT"
+  },
+  {
+    "name": "twoG",
+    "type": "FLOAT"
+  },
+  {
+    "name": "slowtwoG",
+    "type": "FLOAT"
+  },
+  {
+    "name": "offline",
+    "type": "FLOAT"
+  }
+]

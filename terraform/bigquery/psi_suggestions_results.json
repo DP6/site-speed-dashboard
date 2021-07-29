@@ -1,0 +1,42 @@
+[
+  {
+    "name": "data",
+    "type": "DATE"
+  },
+  {
+    "name": "page",
+    "type": "STRING"
+  },
+  {
+    "name": "device",
+    "type": "STRING"
+  },
+  {
+    "name": "opportunity",
+    "type": "STRING"
+  },
+  {
+    "name": "score",
+    "type": "FLOAT"
+  },
+  {
+    "name": "description",
+    "type": "STRING"
+  },
+  {
+    "name": "economy",
+    "type": "STRING"
+  },
+  {
+    "name": "loading_impact",
+    "type": "FLOAT"
+  },
+  {
+    "name": "data_impact",
+    "type": "INTEGER"
+  },
+  {
+    "name": "suggestion_type",
+    "type": "STRING"
+  }
+]

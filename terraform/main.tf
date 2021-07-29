@@ -27,10 +27,10 @@ resource "null_resource" "cf_code_zip" {
 #Configurações bigquery
 ######################################################
 #dataset
-resource "google_bigquery_dataset" "dataset" {
+resource "google_bigquery_dataset" "site_speed_dashboard" {
   location                   = var.location
   dataset_id                 = local.final_dataset_id
-  description                = "Descrição do dataset"
+  description                = "Site Speed Dashboard Dataset"
   delete_contents_on_destroy = true
 
   labels = {
@@ -58,6 +58,45 @@ resource "google_bigquery_table" "psi_metrics_results" {
   depends_on = [google_bigquery_dataset.dataset]
 }
 
+resource "google_bigquery_table" "crux_table" {
+  dataset_id          = local.final_dataset_id
+  table_id            = local.bq_table_crux_table
+  description         = "Tabela com métricas coletadas do CrUX"
+  schema              = file("bigquery/crux_table.json")
+  clustering          = ["data"]
+  expiration_time     = null
+  deletion_protection = false
+  time_partitioning {
+    type                     = "DAY"
+    field                    = "data"
+    require_partition_filter = false
+    expiration_ms            = null
+  }
+  labels = {
+    produto = local.project_name
+  }
+  depends_on = [google_bigquery_dataset.dataset]
+}
+
+resource "google_bigquery_table" "psi_suggestions_results" {
+  dataset_id          = local.final_dataset_id
+  table_id            = local.bq_table_psi_suggestions_results
+  description         = "Tabela com sugestões coletadas do PageSpeed Insights"
+  schema              = file("bigquery/psi_suggestions_results.json")
+  clustering          = ["data"]
+  expiration_time     = null
+  deletion_protection = false
+  time_partitioning {
+    type                     = "DAY"
+    field                    = "data"
+    require_partition_filter = false
+    expiration_ms            = null
+  }
+  labels = {
+    produto = local.project_name
+  }
+  depends_on = [google_bigquery_dataset.dataset]
+}
 
 
 

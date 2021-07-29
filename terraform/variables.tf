@@ -6,7 +6,7 @@ locals {
   project_name            = "site-speed-dashboard"
   cf_entry_point          = "getUrls"
   bq_table_psi_metrics_results         = "psi_metrics_results"
-  bq_table_psi_crux_table          = "crux_table"
+  bq_table_crux_table          = "crux_table"
   bq_table_psi_suggestions_results         = "psi_suggestions_results"
   final_dataset_id        = "${var.project_prefix}_${var.dataset_id}"
   final_bucket_name       = "${var.project_prefix}-${var.bucket_name}"
@@ -32,7 +32,7 @@ variable "project_prefix" {
 
 variable "dataset_id" {
   type        = string
-  description = "Google Cloud BigQuery dataset to create recomendado raft_suite"
+  description = "Google Cloud BigQuery dataset to create recomendado site_speed_dashboard"
   default     = "site_speed_dashboard"
 }
 
