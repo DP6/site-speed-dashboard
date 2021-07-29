@@ -78,7 +78,7 @@ async function getUrls_desktop(strategy = 'desktop') {
   const base = await loadProjectConfig();
   const urls = base.URLS.filter(({ strategy }) => !!strategy.desktop);
   let desktopResults = await makeRequest(urls, 'desktop');
-  insertRowsAsStream(desktopResults);
+  insertRowsAsStream(desktopResults,projectConfig.BQ_SCHEMA_PSI_METRICS,projectConfig.BQ_TABLE_ID_PSI_METRICS);
   return desktopResults;
 }
 
@@ -86,7 +86,7 @@ async function getUrls_mobile(strategy = 'mobile') {
   const base = await loadProjectConfig();
   const urls = base.URLS.filter(({ strategy }) => !!strategy.mobile);
   let mobileResults = await makeRequest(urls, 'mobile');
-  insertRowsAsStream(mobileResults);
+  insertRowsAsStream(mobileResults,projectConfig.BQ_SCHEMA_PSI_METRICS,projectConfig.BQ_TABLE_ID_PSI_METRICS);
   return mobileResults;
 }
 
@@ -125,10 +125,10 @@ function addTimestamp(data) {
  * Realiza a persistências dos dados por Stream no BigQuery
  * @param {Array} data Dados estruturados no padrão de persistência do BQ
  */
-async function insertRowsAsStream(data) {
+async function insertRowsAsStream(data, schema, tableId) {
   const bigquery = new BigQuery();
   const options = {
-    schema: projectConfig.BQ_SCHEMA_PSI_METRICS,
+    schema: schema,
     skipInvalidRows: true,
     ignoreUnknownValues: true,
   };
@@ -137,7 +137,7 @@ async function insertRowsAsStream(data) {
   // Insert data into a table
   await bigquery
     .dataset(projectConfig.BQ_DATASET_ID)
-    .table(projectConfig.BQ_TABLE_ID_PSI_METRICS)
+    .table(tableId)
     .insert(data, options, insertHandler);
 
   console.log(`Inserted ${data.length} rows`);

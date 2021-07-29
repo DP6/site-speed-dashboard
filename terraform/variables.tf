@@ -2,7 +2,7 @@
 #Arquivos de configurações local
 #######################################
 locals {
-  cf_name                 = "${var.project_prefix}-project-name"
+  cf_name                 = "${var.project_prefix}-site-speed-dashboard"
   project_name            = "site-speed-dashboard"
   cf_entry_point          = "getUrls"
   bq_table_psi_metrics_results         = "psi_metrics_results"

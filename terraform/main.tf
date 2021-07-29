@@ -106,12 +106,12 @@ resource "google_bigquery_table" "psi_suggestions_results" {
 resource "google_cloudfunctions_function" "function" {
   project               = var.project_id
   name                  = local.cf_name
-  description           = "CF project name"
+  description           = "Execução do PageSpeed Insights para coleta de métricas de performance"
   runtime               = "nodejs14"
   service_account_email = var.service_account_email
   region                = var.region
   available_memory_mb   = 512
-  timeout               = 120
+  timeout               = 540
   source_archive_bucket = google_storage_bucket.my_storage.name
   source_archive_object = "${local.project_name}/${var.project_version}.zip"
   trigger_http          = true
