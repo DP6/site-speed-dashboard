@@ -2,7 +2,7 @@ const { BigQuery } = require('@google-cloud/bigquery');
 const { Storage } = require('@google-cloud/storage');
 const psi = require('psi');
 const BUCKET_GCS = process.env.PROJECT_BUCKET_GCS;
-const PROJECT_FOLDER = 'base';
+const PROJECT_FOLDER = 'config';
 let projectConfig = {};
 let debugging = false;
 

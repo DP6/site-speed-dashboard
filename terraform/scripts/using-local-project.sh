@@ -6,12 +6,12 @@ cd ..
 echo "" pwd
 echo "Criando Zip"
 zip -r "$1.zip" package.json index.js LICENSE README.md
-echo "Movendo Zip para terraform/files-copy-to-gcs/site-speed-dashboard/"
-mv "$1.zip" ./terraform/files-copy-to-gcs/site-speed-dashboard/
+echo "Movendo Zip para terraform/files-copy-to-gcs/config/"
+mv "$1.zip" ./terraform/files-copy-to-gcs/config/
 echo "Entrando nas pasta terraform para copiar os arquivos"
 cd terraform
 echo "Iniciando copia para GCP"
 gsutil cp -r ./files-copy-to-gcs/* "gs://$2"
 echo "excluindo zip"
-rm -rf "./files-copy-to-gcs/site-speed-dashboard/$1.zip"
+rm -rf "./files-copy-to-gcs/config/$1.zip"
 echo "FIM script $0"
