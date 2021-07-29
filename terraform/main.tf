@@ -122,6 +122,16 @@ resource "google_cloudfunctions_function" "function" {
   depends_on = [null_resource.cf_code_zip]
 }
 
+# IAM entry for all users to invoke the function
+resource "google_cloudfunctions_function_iam_member" "invoker" {
+  project        = var.project_id
+  region         = google_cloudfunctions_function.function.region
+  cloud_function = google_cloudfunctions_function.function.name
+
+  role   = "roles/cloudfunctions.invoker"
+  member = "allUsers"
+}
+
 ##################################
 #Configurações do Job Scheduler
 ##################################
@@ -141,14 +151,3 @@ resource "google_cloud_scheduler_job" "job" {
     uri         = "https://${google_cloudfunctions_function.function.region}-${local.project_name}.cloudfunctions.net/${local.cf_name}"
   }
 }
-
-# IAM entry for all users to invoke the function
-resource "google_cloudfunctions_function_iam_member" "invoker" {
-  project        = var.project_id
-  region         = google_cloudfunctions_function.function.region
-  cloud_function = google_cloudfunctions_function.function.name
-
-  role   = "roles/cloudfunctions.invoker"
-  member = "allUsers"
-}
-

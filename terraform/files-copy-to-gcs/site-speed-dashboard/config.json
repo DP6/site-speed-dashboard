@@ -1,5 +1,5 @@
 {
-  "BQ_DATASET_ID": "teste-site-speed-dashboard",
+  "BQ_DATASET_ID": "dp6-site-speed-dashboard",
   "BQ_TABLE_ID_PSI_METRICS": "psi_metrics_results",
   "BQ_TABLE_ID_PSI_SUGGESTIONS": "psi_suggestions_results",
   "BQ_SCHEMA_PSI_METRICS": [
