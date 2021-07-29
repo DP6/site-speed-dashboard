@@ -122,6 +122,26 @@ resource "google_cloudfunctions_function" "function" {
   depends_on = [null_resource.cf_code_zip]
 }
 
+##################################
+#Configurações do Job Scheduler
+##################################
+resource "google_cloud_scheduler_job" "job" {
+  name             = "site-speed-dashboard-schedule"
+  description      = "test http job"
+  schedule         = "0 7 * * *"
+  time_zone        = "America/Sao_Paulo"
+  attempt_deadline = "320s"
+
+  retry_config {
+    retry_count = 1
+  }
+
+  http_target {
+    http_method = "GET"
+    uri         = "https://${google_cloudfunctions_function.function.region}-${local.project_name}.cloudfunctions.net/${local.cf_name}"
+  }
+}
+
 # IAM entry for all users to invoke the function
 resource "google_cloudfunctions_function_iam_member" "invoker" {
   project        = var.project_id
