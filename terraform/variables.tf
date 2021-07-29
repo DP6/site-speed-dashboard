@@ -18,7 +18,7 @@ locals {
 variable "bucket_name" {
   type        = string
   description = "Google Cloud Storage Bucket to create, o valor informado será usado em conjunto com o project_prefix para formar o nome do bucket"
-  default     = "site_speed_dashboard"
+  default     = "site-speed-dashboard"
 }
 
 variable "project_prefix" {
