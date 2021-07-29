@@ -1,0 +1,79 @@
+{
+  "name": "template-js-cloudfunction-with-terraform",
+  "private": "true",
+  "version": "0.1.0",
+  "description": "Google Cloud Function",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DP6/template-js-cloudfunction-with-terraform.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint-md": "remark .",
+    "lint-prettier": "npx prettier --check . || exit 0",
+    "lint": "npm run lint-md && npm run lint-prettier",
+    "unit-test": "mocha ./test/unit  -timeout 8000",
+    "integration-test": "mocha ./test/integration --timeout=16000 --exit",
+    "all-test": "npm run integration-test && npm run unit-test",
+    "test": "npm -- run all-test",
+    "coverage": "nyc --reporter=lcov --reporter=cobertura npm run unit-test",
+    "docs": "jsdoc2md index.js > docs/index.md",
+    "local": "functions-framework --target=templateCf --signature-type=http --port 8080"
+  },
+  "author": "DP6",
+  "contributors": [
+    {
+      "name": "Joaquim Neto",
+      "email": "contato@joaquimsn.com"
+    }
+  ],
+  "license": "ISC",
+  "keywords": [
+    "dp6"
+  ],
+  "bugs": {
+    "url": "https://github.com/DP6/template-js-cloudfunction-with-terraform/issues"
+  },
+  "homepage": "https://github.com/DP6/template-js-cloudfunction-with-terraform#readme",
+  "release": {
+    "branch": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      [
+        "@semantic-release/github"
+      ]
+    ]
+  },
+  "dependencies": {
+    "@google-cloud/bigquery": "^5.6.0",
+    "@google-cloud/storage": "^5.8.4"
+  },
+  "devDependencies": {
+    "@google-cloud/functions-framework": "^1.7.1",
+    "chai": "^4.3.3",
+    "child-process-promise": "^2.2.1",
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "jsdoc-to-markdown": "^7.0.0",
+    "mocha": "^8.3.1",
+    "nyc": "^15.1.0",
+    "prettier": "2.2.1",
+    "proxyquire": "^2.1.3",
+    "remark": "^13.0.0",
+    "remark-cli": "^9.0.0",
+    "remark-preset-lint-recommended": "^5.0.0",
+    "request": "^2.88.2",
+    "requestretry": "^5.0.0",
+    "sinon": "^10.0.0",
+    "uuid": "^8.3.2"
+  }
+}

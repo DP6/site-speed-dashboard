@@ -1,0 +1,14 @@
+[
+  {
+    "name": "data",
+    "type": "DATETIME",
+    "mode": "REQUIRED",
+    "description": "Datatime com timezone America/Sao_Paulo"
+  },
+  {
+    "name": "name",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Nome"
+  }
+]
