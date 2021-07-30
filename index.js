@@ -6,7 +6,7 @@ const PROJECT_FOLDER = 'config';
 let projectConfig = {};
 let debugging = false;
 
-const getUrls = async (req, res) => {
+async function getUrls (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Credentials', 'true');
 
@@ -22,15 +22,11 @@ const getUrls = async (req, res) => {
     debugging = query.debugging; //Se true habilita o log do json de validação
     delete query.debugging;
 
-    let desktop = await getUrls_desktop();
-    let mobile = await getUrls_mobile();
+    processPsiData();
 
-    trace('PROJECT', 'Tem configuração');
-
-    trace('RESULT VALID');
     res
       .status(200)
-      .send(debugging ? { debugging: debugging, resultDesktop: desktop, resultMobile: mobile } : 'sucesso!');
+      .send({ debugging: debugging, message: 'Em processamento!'});
   }
 };
 
@@ -74,51 +70,25 @@ async function makeRequest(urls, strategy) {
   return psiResult;
 }
 
-async function getUrls_desktop(strategy = 'desktop') {
+async function processPsiData() {
+  trace('getUrls Desktop');
+  insertRowsAsStream(await getUrlsDesktop(), projectConfig.BQ_SCHEMA_PSI_METRICS, projectConfig.BQ_TABLE_ID_PSI_METRICS);
+  trace('getUrls Mobile');
+  insertRowsAsStream(await getUrlsMobile(), projectConfig.BQ_SCHEMA_PSI_METRICS, projectConfig.BQ_TABLE_ID_PSI_METRICS);
+}
+
+async function getUrlsDesktop(strategy = 'desktop') {
   const base = await loadProjectConfig();
   const urls = base.URLS.filter(({ strategy }) => !!strategy.desktop);
   let desktopResults = await makeRequest(urls, 'desktop');
-  insertRowsAsStream(desktopResults, projectConfig.BQ_SCHEMA_PSI_METRICS, projectConfig.BQ_TABLE_ID_PSI_METRICS);
   return desktopResults;
 }
 
-async function getUrls_mobile(strategy = 'mobile') {
+async function getUrlsMobile(strategy = 'mobile') {
   const base = await loadProjectConfig();
   const urls = base.URLS.filter(({ strategy }) => !!strategy.mobile);
   let mobileResults = await makeRequest(urls, 'mobile');
-  insertRowsAsStream(mobileResults, projectConfig.BQ_SCHEMA_PSI_METRICS, projectConfig.BQ_TABLE_ID_PSI_METRICS);
   return mobileResults;
-}
-
-/**
- * Monta as linhas para serem inseridas no BQ
- * @param {Array} result Status das chaves validadas
- * @param {Object} queryString
- * @param {String} schemaName Identificação do schema usado para validação
- * @returns {Array} Dados estruturados para o BQ
- */
-function createSchemaBq(result, queryString, schemaName) {
-  const schemaBQ = [];
-  const schema = { schema: schemaName };
-  const objectQuery = addTimestamp(queryString);
-  result.forEach((item) => {
-    schemaBQ.push({ ...objectQuery, ...schema, ...item });
-  });
-
-  return schemaBQ;
-}
-
-/**
- * Adiciona o atributo data para o objeto, contendo o timestamp do momento da execução
- * @param {Object} data Objeto
- * @returns {Object} Objeto com o atributo no padrão yyyy-mm-ddThh:mm:ss
- */
-function addTimestamp(data) {
-  let [date, time] = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }).split(' ');
-  date = date.split('/');
-  let timestamp = `${date[2]}-${date[1]}-${date[0]}T${time}`;
-  data.data = timestamp;
-  return data;
 }
 
 /**
@@ -170,9 +140,9 @@ function trace(log) {
 }
 
 module.exports = {
-  createSchemaBq,
-  addTimestamp,
   loadProjectConfig,
   insertRowsAsStream,
+  getUrlsDesktop: getUrlsDesktop,
+  getUrlsMobile: getUrlsMobile,
   getUrls,
 };

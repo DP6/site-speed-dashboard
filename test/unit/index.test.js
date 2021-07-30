@@ -1,12 +1,3 @@
-/**?
-describe(): It's used to group, which you can nest as deep;
-it(): It's the test case;
-before(): It's a hook to run before the first it() or describe();
-beforeEach(): It’s a hook to run before each it() or describe();
-after(): It’s a hook to run after it() or describe();
-afterEach(): It’s a hook to run after each it() or describe(); 
- */
-
 const { assert } = require('chai');
 const chai = require('chai');
 const expect = chai.expect;
@@ -19,31 +10,6 @@ describe('Template Cloud Function', () => {
   describe('#getUrls()', () => {
     it('Deve ser uma function', () => {
       assert.isFunction(cloudFunction.getUrls);
-    });
-    it('Deve processar req e resp retornando http status code 400', async () => {
-      const req = {
-        query: {},
-        body: {
-          id: uuid.v4(),
-        },
-      };
-
-      let tmpResponse = { status: '' };
-      let tmpFunctionStatus = (s) => {
-        tmpResponse.status = s;
-      };
-      const res = {
-        set: () => {},
-        sendStatus: tmpFunctionStatus,
-        send: tmpFunctionStatus,
-        status: (s) => {
-          tmpFunctionStatus(s);
-          return { send: () => {} };
-        },
-      };
-
-      await cloudFunction.getUrls(req, res);
-      assert.strictEqual(tmpResponse.status, 400);
     });
     it('Deve processar req e resp retornando http status code 200', async () => {
       const req = {
@@ -69,12 +35,7 @@ describe('Template Cloud Function', () => {
     });
     it('Deve processar req e resp retornando http status code 200', async () => {
       const req = {
-        query: { schema: 'global' },
-        body: [
-          {
-            usuario: { idUsuario: '24413751' },
-          },
-        ],
+        query: {}
       };
 
       let tmpResponse = { status: '' };
@@ -96,43 +57,61 @@ describe('Template Cloud Function', () => {
     });
   });
 
-  describe('#createSchemaBq()', () => {
-    let array = [{ att: 'a' }, { att: 'b' }];
-    let obj = { c: 'c' };
-    let string = 'teste';
-
-    it('Deve ser uma function', () => {
-      assert.isFunction(cloudFunction.createSchemaBq);
-    });
-    it('Deve retornar um array com objetos', () => {
-      expect(cloudFunction.createSchemaBq(array, obj, string)).to.be.an('array').that.not.empty;
-    });
-    it('Array deve ter objeto com a propriedade data', () => {
-      expect(cloudFunction.createSchemaBq(array, obj, string)[0]).to.have.own.property('data');
-    });
-    it('Array deve ter objeto com a propriedade schema', () => {
-      expect(cloudFunction.createSchemaBq(array, obj, string)[1]).to.have.own.property('schema');
-    });
-  });
-
-  describe('#addTimestamp()', () => {
-    let patternTimestamp = /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})$/;
-    let obj = { attr: 'attr' };
-    it('Deve ser uma function', () => {
-      assert.isFunction(cloudFunction.addTimestamp);
-    });
-
-    it('Deve possuir o atributo data', () => {
-      expect(cloudFunction.addTimestamp(obj)).to.have.own.property('data');
-    });
-    it('Data deve estar no padrão yyyy-mm-ddThh:mm:ss', () => {
-      expect(patternTimestamp.test(cloudFunction.addTimestamp(obj).data)).to.be.true;
-    });
-  });
-
   describe('#loadProjectConfig()', () => {
     it('Deve retornar o objeto de configuração', async () => {
       expect(await cloudFunction.loadProjectConfig()).to.have.own.property('URLS');
+    });
+  });
+
+  describe('#getUrlsDesktop()', () => {
+    it('Deve ser uma function', () => {
+      assert.isFunction(cloudFunction.getUrlsDesktop);
+    });
+    it('Deve retornar um array de metricas do PSI', async () => {
+      let response = await cloudFunction.getUrlsDesktop();
+      expect(response).to.be.an('array').that.not.empty;
+    });
+    it('O objeto de metricas deve ter o atributo Score', async () => {
+      let response = await cloudFunction.getUrlsDesktop();
+      expect(response[0]).to.have.own.property('Score');
+    });
+    it('O objeto de metricas deve ter o atributo Data', async () => {
+      let response = await cloudFunction.getUrlsMobile();
+      expect(response[0]).to.have.own.property('Data');
+    });
+    it('O objeto de metricas deve ter o atributo Brand', async () => {
+      let response = await cloudFunction.getUrlsMobile();
+      expect(response[0]).to.have.own.property('Brand');
+    });
+    it('O objeto de metricas deve ter o atributo Page', async () => {
+      let response = await cloudFunction.getUrlsMobile();
+      expect(response[0]).to.have.own.property('Page');
+    });
+  });
+
+  describe('#getUrlsMobile()', () => {
+    it('Deve ser uma function', () => {
+      assert.isFunction(cloudFunction.getUrlsMobile);
+    });
+    it('Deve retornar um array de metricas do PSI', async () => {
+      let response = await cloudFunction.getUrlsMobile();
+      expect(response).to.be.an('array').that.not.empty;
+    });
+    it('O objeto de metricas deve ter o atributo Score', async () => {
+      let response = await cloudFunction.getUrlsMobile();
+      expect(response[0]).to.have.own.property('Score');
+    });
+    it('O objeto de metricas deve ter o atributo Data', async () => {
+      let response = await cloudFunction.getUrlsMobile();
+      expect(response[0]).to.have.own.property('Data');
+    });
+    it('O objeto de metricas deve ter o atributo Brand', async () => {
+      let response = await cloudFunction.getUrlsMobile();
+      expect(response[0]).to.have.own.property('Brand');
+    });
+    it('O objeto de metricas deve ter o atributo Page', async () => {
+      let response = await cloudFunction.getUrlsMobile();
+      expect(response[0]).to.have.own.property('Page');
     });
   });
 });
