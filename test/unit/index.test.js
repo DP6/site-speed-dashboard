@@ -35,7 +35,7 @@ describe('Template Cloud Function', () => {
     });
     it('Deve processar req e resp retornando http status code 200', async () => {
       const req = {
-        query: {}
+        query: {},
       };
 
       let tmpResponse = { status: '' };

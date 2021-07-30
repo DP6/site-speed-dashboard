@@ -6,7 +6,7 @@ const PROJECT_FOLDER = 'config';
 let projectConfig = {};
 let debugging = false;
 
-async function getUrls (req, res) {
+async function getUrls(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Credentials', 'true');
 
@@ -24,11 +24,9 @@ async function getUrls (req, res) {
 
     processPsiData();
 
-    res
-      .status(200)
-      .send({ debugging: debugging, message: 'Em processamento!'});
+    res.status(200).send({ debugging: debugging, message: 'Em processamento!' });
   }
-};
+}
 
 async function makeRequest(urls, strategy) {
   // const psi = new PSIApiUtil(PSI_API_KEY);
@@ -72,7 +70,11 @@ async function makeRequest(urls, strategy) {
 
 async function processPsiData() {
   trace('getUrls Desktop');
-  insertRowsAsStream(await getUrlsDesktop(), projectConfig.BQ_SCHEMA_PSI_METRICS, projectConfig.BQ_TABLE_ID_PSI_METRICS);
+  insertRowsAsStream(
+    await getUrlsDesktop(),
+    projectConfig.BQ_SCHEMA_PSI_METRICS,
+    projectConfig.BQ_TABLE_ID_PSI_METRICS
+  );
   trace('getUrls Mobile');
   insertRowsAsStream(await getUrlsMobile(), projectConfig.BQ_SCHEMA_PSI_METRICS, projectConfig.BQ_TABLE_ID_PSI_METRICS);
 }
