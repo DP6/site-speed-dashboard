@@ -148,6 +148,6 @@ resource "google_cloud_scheduler_job" "job" {
 
   http_target {
     http_method = "GET"
-    uri         = "https://${google_cloudfunctions_function.function.region}-${local.project_name}.cloudfunctions.net/${local.cf_name}"
+    uri         = "https://${google_cloudfunctions_function.function.region}-${var.project_id}.cloudfunctions.net/${local.cf_name}"
   }
 }
