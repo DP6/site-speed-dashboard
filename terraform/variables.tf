@@ -10,6 +10,7 @@ locals {
   bq_table_psi_suggestions_results         = "psi_suggestions_results"
   final_dataset_id        = "${var.project_prefix}_${var.dataset_id}"
   final_bucket_name       = "${var.project_prefix}-${var.bucket_name}"
+  gcs_bucket_folder_name  = "config"
 }
 
 #######################################
@@ -20,6 +21,7 @@ variable "bucket_name" {
   description = "Google Cloud Storage Bucket to create, o valor informado será usado em conjunto com o project_prefix para formar o nome do bucket"
   default     = "site-speed-dashboard"
 }
+
 
 variable "project_prefix" {
   type        = string

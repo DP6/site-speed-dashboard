@@ -113,7 +113,7 @@ resource "google_cloudfunctions_function" "function" {
   available_memory_mb   = 512
   timeout               = 540
   source_archive_bucket = google_storage_bucket.my_storage.name
-  source_archive_object = "${local.project_name}/${var.project_version}.zip"
+  source_archive_object = "${local.gcs_bucket_folder_name}/${var.project_version}.zip"
   trigger_http          = true
   entry_point           = local.cf_entry_point
   environment_variables = {
