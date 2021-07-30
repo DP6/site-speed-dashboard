@@ -122,6 +122,7 @@ resource "google_cloudfunctions_function" "function" {
   depends_on = [null_resource.cf_code_zip]
 }
 
+
 # IAM entry for all users to invoke the function
 resource "google_cloudfunctions_function_iam_member" "invoker" {
   project        = var.project_id
@@ -131,6 +132,39 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
   role   = "roles/cloudfunctions.invoker"
   member = "allUsers"
 }
+
+resource "google_cloudfunctions_function" "crux_data" {
+  project               = var.project_id
+  name                  = "crux_data"
+  description           = "Cole de métricas de performance do CrUX"
+  runtime               = "python39"
+  service_account_email = var.service_account_email
+  region                = var.region
+  available_memory_mb   = 256
+  timeout               = 120
+  source_archive_bucket = google_storage_bucket.my_storage.name
+  source_archive_object = "${local.gcs_bucket_folder_name}/crux_data.zip"
+  trigger_http          = true
+  entry_point           = "main"
+  environment_variables = {
+    PROJECT_BUCKET_GCS = local.final_bucket_name
+  }
+  depends_on = [null_resource.cf_code_zip]
+}
+
+
+
+# IAM entry for all users to invoke the function
+resource "google_cloudfunctions_function_iam_member" "invoker_crux" {
+  project        = var.project_id
+  region         = google_cloudfunctions_function.function.region
+  cloud_function = google_cloudfunctions_function.crux_data.name
+
+  role   = "roles/cloudfunctions.invoker"
+  member = "allUsers"
+}
+
+
 
 ##################################
 #Configurações do Job Scheduler
@@ -149,5 +183,22 @@ resource "google_cloud_scheduler_job" "job" {
   http_target {
     http_method = "GET"
     uri         = "https://${google_cloudfunctions_function.function.region}-${var.project_id}.cloudfunctions.net/${local.cf_name}"
+  }
+}
+
+resource "google_cloud_scheduler_job" "job_crux" {
+  name             = "site-speed-dashboard-schedule"
+  description      = "test http job"
+  schedule         = "0 17 * * *"
+  time_zone        = "America/Sao_Paulo"
+  attempt_deadline = "320s"
+
+  retry_config {
+    retry_count = 1
+  }
+
+  http_target {
+    http_method = "GET"
+    uri         = "https://${google_cloudfunctions_function.function.region}-${var.project_id}.cloudfunctions.net/crux_data"
   }
 }
