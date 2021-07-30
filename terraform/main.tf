@@ -187,7 +187,7 @@ resource "google_cloud_scheduler_job" "job" {
 }
 
 resource "google_cloud_scheduler_job" "job_crux" {
-  name             = "site-speed-dashboard-schedule"
+  name             = "site-speed-dashboard-schedule-crux-data"
   description      = "test http job"
   schedule         = "0 17 * * *"
   time_zone        = "America/Sao_Paulo"
