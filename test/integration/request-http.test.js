@@ -8,7 +8,7 @@ const uuid = require('uuid');
 
 const PORT = process.env.PORT || 8080;
 process.env.PROJECT_BUCKET_GCS = 'site_speed_dashboard_test'; //bucket com arquivo de configuração publico
-process.env.PSI_KEY =  '';
+process.env.PSI_KEY =  process.env.PSI_KEY || '';
 const BASE_URL = `http://localhost:${PORT}`;
 const cwd = path.join(__dirname, './../../');
 let ffProc;
