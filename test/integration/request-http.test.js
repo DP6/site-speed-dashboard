@@ -8,6 +8,7 @@ const uuid = require('uuid');
 
 const PORT = process.env.PORT || 8080;
 process.env.PROJECT_BUCKET_GCS = 'site_speed_dashboard_test'; //bucket com arquivo de configuração publico
+process.env.PSI_KEY =  '';
 const BASE_URL = `http://localhost:${PORT}`;
 const cwd = path.join(__dirname, './../../');
 let ffProc;
@@ -28,19 +29,17 @@ describe('Execução cloud function template', async () => {
     await ffProc;
   });
 
-  it('Deve retornar a identificação que o modo debugging está ativado', async () => {
+  it('Deve retornar HTTP status code 200', async () => {
     const response = await requestEndpoint();
 
     assert.strictEqual(response.statusCode, 200);
-    expect(response.body).that.contains('debugging');
   });
 });
 
 async function requestEndpoint() {
   return requestRetry({
     url: `${BASE_URL}/?debugging=true`,
-    method: 'POST',
-    body: { attr: 'sss' },
+    method: 'GET',
     retryDelay: 200,
     json: true,
   });

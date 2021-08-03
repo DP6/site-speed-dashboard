@@ -2,15 +2,15 @@
 #Arquivos de configurações local
 #######################################
 locals {
-  cf_name                 = "${var.project_prefix}-site-speed-dashboard"
-  project_name            = "site-speed-dashboard"
-  cf_entry_point          = "getUrls"
-  bq_table_psi_metrics_results         = "psi_metrics_results"
-  bq_table_crux_table          = "crux_table"
-  bq_table_psi_suggestions_results         = "psi_suggestions_results"
-  final_dataset_id        = "${var.project_prefix}_${var.dataset_id}"
-  final_bucket_name       = "${var.project_prefix}-${var.bucket_name}"
-  gcs_bucket_folder_name  = "config"
+  cf_name                          = "${var.project_prefix}-site-speed-dashboard"
+  project_name                     = "site-speed-dashboard"
+  cf_entry_point                   = "getUrls"
+  bq_table_psi_metrics_results     = "psi_metrics_results"
+  bq_table_crux_table              = "crux_table"
+  bq_table_psi_suggestions_results = "psi_suggestions_results"
+  final_dataset_id                 = "${var.project_prefix}_${var.dataset_id}"
+  final_bucket_name                = "${var.project_prefix}-${var.bucket_name}"
+  gcs_bucket_folder_name           = "config"
 }
 
 #######################################
@@ -64,4 +64,9 @@ variable "location" {
 variable "service_account_email" {
   type        = string
   description = "Service account que será utilizadas pelo modulo project-name, as permissões necessárias são: Storage Object Admin, Cloud Functions Admin, BigQuery Admin e Service Account User"
+}
+
+variable "psi_key" {
+  type        = string
+  description = "Token para utilização da API do PSI com um limite maior de requisições, esse token é gerado á nivel de usuário"
 }

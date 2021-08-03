@@ -147,7 +147,8 @@ resource "google_cloudfunctions_function" "crux_data" {
   trigger_http          = true
   entry_point           = "main"
   environment_variables = {
-    PROJECT_BUCKET_GCS = local.final_bucket_name
+    PROJECT_BUCKET_GCS = local.final_bucket_name,
+    PSI_KEY            = var.psi_key
   }
   depends_on = [null_resource.cf_code_zip]
 }

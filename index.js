@@ -3,6 +3,7 @@ const { Storage } = require('@google-cloud/storage');
 const psi = require('psi');
 const BUCKET_GCS = process.env.PROJECT_BUCKET_GCS;
 const PROJECT_FOLDER = 'config';
+const PSI_KEY = process.env.PSI_KEY;
 let projectConfig = {};
 let debugging = false;
 
@@ -37,7 +38,7 @@ async function makeRequest(urls, strategy) {
   const psiRuns = urls.map(async ({ URL, brand, page }) => {
     try {
       trace(`Iniciando requisição: ${brand} ${strategy}`);
-      let psi_response = await psi(URL, { strategy: strategy, key: 'AIzaSyDMowLrCL6VBPQuGwjK7OKAX4kGHmhYqxk' });
+      let psi_response = await psi(URL, { strategy: strategy, key: PSI_KEY });
       if (psi_response) {
         let lighthouseResult = psi_response.data.lighthouseResult;
         psiResult.push({
