@@ -3,7 +3,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const uuid = require('uuid');
 process.env.PROJECT_BUCKET_GCS = 'site_speed_dashboard_test';
-process.env.PSI_KEY =  '';
+process.env.PSI_KEY = '';
 
 const cloudFunction = require('./../../index');
 
