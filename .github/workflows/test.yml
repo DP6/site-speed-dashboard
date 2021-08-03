@@ -4,15 +4,15 @@ jobs:
   run:
     name: Test
     runs-on: ubuntu-latest
-    env:
-      PSI_KEY: {{ secrets.PSI_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 2
+        env:
+          PSI_KEY: { { secrets.PSI_KEY } }
       - name: Install dependencies
-        run: npm install
+        run: npm install && export PSI_KEY=${{ secrets.PSI_KEY }}
       - name: Run tests
         run: npm run test
       - name: Run coverage
