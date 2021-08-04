@@ -30,8 +30,6 @@ async function getUrls(req, res) {
 }
 
 async function makeRequest(urls, strategy) {
-  // const psi = new PSIApiUtil(PSI_API_KEY);
-  // let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheets.base);
   const psiResult = [];
   const date = new Date().toISOString().split('T')[0];
 
