@@ -71,22 +71,23 @@ describe('Template Cloud Function', () => {
     it('Deve retornar um array de metricas do PSI', async () => {
       let response = await cloudFunction.getUrlsDesktop();
       expect(response).to.be.an('array').that.not.empty;
-    });
-    it('O objeto de metricas deve ter o atributo Score', async () => {
-      let response = await cloudFunction.getUrlsDesktop();
-      expect(response[0]).to.have.own.property('Score');
-    });
-    it('O objeto de metricas deve ter o atributo Data', async () => {
-      let response = await cloudFunction.getUrlsMobile();
       expect(response[0]).to.have.own.property('Data');
-    });
-    it('O objeto de metricas deve ter o atributo Brand', async () => {
-      let response = await cloudFunction.getUrlsMobile();
       expect(response[0]).to.have.own.property('Brand');
-    });
-    it('O objeto de metricas deve ter o atributo Page', async () => {
-      let response = await cloudFunction.getUrlsMobile();
       expect(response[0]).to.have.own.property('Page');
+      expect(response[0]).to.have.own.property('Site');
+      expect(response[0]).to.have.own.property('Device');
+      expect(response[0]).to.have.own.property('Score');
+      expect(response[0]).to.have.own.property('LAB_FCP');
+      expect(response[0]).to.have.own.property('LAB_FMP');
+      expect(response[0]).to.have.own.property('LAB_FCPUIdle');
+      expect(response[0]).to.have.own.property('LAB_SpeedIndex');
+      expect(response[0]).to.have.own.property('LAB_TTI');
+      expect(response[0]).to.have.own.property('LAB_InputLatency');
+      expect(response[0]).to.have.own.property('LAB_TTFB');
+      expect(response[0]).to.have.own.property('LAB_RenderBlocking');
+      expect(response[0]).to.have.own.property('LAB_TBT');
+      expect(response[0]).to.have.own.property('LAB_CLS');
+      expect(response[0]).to.have.own.property('LAB_LCP');
     });
   });
 
@@ -97,22 +98,23 @@ describe('Template Cloud Function', () => {
     it('Deve retornar um array de metricas do PSI', async () => {
       let response = await cloudFunction.getUrlsMobile();
       expect(response).to.be.an('array').that.not.empty;
-    });
-    it('O objeto de metricas deve ter o atributo Score', async () => {
-      let response = await cloudFunction.getUrlsMobile();
-      expect(response[0]).to.have.own.property('Score');
-    });
-    it('O objeto de metricas deve ter o atributo Data', async () => {
-      let response = await cloudFunction.getUrlsMobile();
       expect(response[0]).to.have.own.property('Data');
-    });
-    it('O objeto de metricas deve ter o atributo Brand', async () => {
-      let response = await cloudFunction.getUrlsMobile();
       expect(response[0]).to.have.own.property('Brand');
-    });
-    it('O objeto de metricas deve ter o atributo Page', async () => {
-      let response = await cloudFunction.getUrlsMobile();
       expect(response[0]).to.have.own.property('Page');
+      expect(response[0]).to.have.own.property('Site');
+      expect(response[0]).to.have.own.property('Device');
+      expect(response[0]).to.have.own.property('Score');
+      expect(response[0]).to.have.own.property('LAB_FCP');
+      expect(response[0]).to.have.own.property('LAB_FMP');
+      expect(response[0]).to.have.own.property('LAB_FCPUIdle');
+      expect(response[0]).to.have.own.property('LAB_SpeedIndex');
+      expect(response[0]).to.have.own.property('LAB_TTI');
+      expect(response[0]).to.have.own.property('LAB_InputLatency');
+      expect(response[0]).to.have.own.property('LAB_TTFB');
+      expect(response[0]).to.have.own.property('LAB_RenderBlocking');
+      expect(response[0]).to.have.own.property('LAB_TBT');
+      expect(response[0]).to.have.own.property('LAB_CLS');
+      expect(response[0]).to.have.own.property('LAB_LCP');
     });
   });
 });
