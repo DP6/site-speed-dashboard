@@ -6,7 +6,7 @@ const expect = chai.expect;
 describe('Arquivo de configuração', () => {
   let config;
   before(() => {
-    config = JSON.parse(fs.readFileSync('terraform/files-copy-to-gcs/config/config.json').toString());
+    config = JSON.parse(fs.readFileSync('./../../terraform/files-copy-to-gcs/config/config.json').toString());
   });
   it('Deve possuir o atributo URLS', async () => {
     expect(config).to.have.own.property('URLS');
