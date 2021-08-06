@@ -2,12 +2,15 @@ name: Release
 on:
   push:
     branches: [master, main]
+
+defaults:
+  run:
+    working-directory: ./functions/psi
+
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./functions/psi
     steps:
       - name: Checkout
         uses: actions/checkout@v2

@@ -1,11 +1,14 @@
 name: Test
 on: [push, pull_request]
+
+defaults:
+  run:
+    working-directory: ./functions/psi
+
 jobs:
   run:
     name: Test
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./functions/psi
     steps:
       - name: Checkout
         uses: actions/checkout@v2

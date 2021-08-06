@@ -1,5 +1,10 @@
 name: Lint and format
 on: ['push']
+
+defaults:
+  run:
+    working-directory: ./functions/psi
+    
 jobs:
   format:
     name: Lint and format
