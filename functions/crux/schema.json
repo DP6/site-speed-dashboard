@@ -1,0 +1,232 @@
+[
+  {
+    "field_path": "year_month",
+    "data_type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "start",
+    "data_type": "NUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "ended",
+    "data_type": "NUMERIC",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "form",
+    "data_type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "origin",
+    "data_type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "connection",
+    "data_type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "fcp_density",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "lcp_density",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "dcl_density",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "onload_density",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "fp_density",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "fid_density",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "ttfb_density",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "cls_density",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "good_lcp",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "poor_lcp",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "average_lcp",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "good_fp",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "poor_fp",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "average_fp",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "good_onload",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "poor_onload",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "average_onload",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "good_fcp",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "poor_fcp",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "average_fcp",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "good_dcl",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "poor_dcl",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "average_dcl",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "good_fid",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "poor_fid",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "average_fid",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "good_cls",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "poor_cls",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "average_cls",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "good_ttfb",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "poor_ttfb",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "average_ttfb",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "phone",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "desktop",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "tablet",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "fourG",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "threeG",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "twoG",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "slowtwoG",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  },
+  {
+    "field_path": "offline",
+    "data_type": "FLOAT64",
+    "mode": "NULLABLE"
+  }
+]
