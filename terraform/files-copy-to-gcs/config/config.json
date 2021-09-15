@@ -1,190 +1,428 @@
 {
-  "BQ_DATASET_ID": "dp6-site-speed-dashboard",
+  "BQ_DATASET_ID": "dp6_site_speed_dashboard",
   "BQ_TABLE_ID_PSI_METRICS": "psi_metrics_results",
   "BQ_TABLE_ID_PSI_SUGGESTIONS": "psi_suggestions_results",
+  "BQ_TABLE_ID_CRUX": "crux_table",
   "BQ_SCHEMA_PSI_METRICS": [
-    {
-      "mode": "NULLABLE",
-      "name": "Data",
-      "type": "DATE"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Brand",
-      "type": "STRING"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Page",
-      "type": "STRING"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Site",
-      "type": "STRING"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Device",
-      "type": "STRING"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Score",
-      "type": "FLOAT"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Lab_FCP",
-      "type": "FLOAT"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Lab_FMP",
-      "type": "FLOAT"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Lab_FCPUIdle",
-      "type": "INTEGER"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Lab_SpeedIndex",
-      "type": "FLOAT"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Lab_TTI",
-      "type": "FLOAT"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Lab_InputLatency",
-      "type": "FLOAT"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Lab_TTFB",
-      "type": "FLOAT"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Lab_RenderBlocking",
-      "type": "FLOAT"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Lab_TBT",
-      "type": "FLOAT"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Lab_CLS",
-      "type": "FLOAT"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Lab_LCP",
-      "type": "FLOAT"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Loading_CLS_Category",
-      "type": "STRING"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Loading_CLS",
-      "type": "STRING"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Loading_FCP_Category",
-      "type": "STRING"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Loading_FCP",
-      "type": "STRING"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Loading_FID_Category",
-      "type": "STRING"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Loading_FID",
-      "type": "STRING"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Loading_LCP_Category",
-      "type": "STRING"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Loading_LCP",
-      "type": "STRING"
-    },
-    {
-      "mode": "NULLABLE",
-      "name": "Loading_Overall_Category",
-      "type": "STRING"
-    }
+  {
+  "mode": "NULLABLE",
+  "name": "Data",
+  "type": "DATE"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Brand",
+  "type": "STRING"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Page",
+  "type": "STRING"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Site",
+  "type": "STRING"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Device",
+  "type": "STRING"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Score",
+  "type": "FLOAT"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Lab_FCP",
+  "type": "FLOAT"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Lab_FMP",
+  "type": "FLOAT"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Lab_FCPUIdle",
+  "type": "INTEGER"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Lab_SpeedIndex",
+  "type": "FLOAT"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Lab_TTI",
+  "type": "FLOAT"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Lab_InputLatency",
+  "type": "FLOAT"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Lab_TTFB",
+  "type": "FLOAT"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Lab_RenderBlocking",
+  "type": "FLOAT"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Lab_TBT",
+  "type": "FLOAT"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Lab_CLS",
+  "type": "FLOAT"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Lab_LCP",
+  "type": "FLOAT"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Loading_CLS_Category",
+  "type": "STRING"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Loading_CLS",
+  "type": "STRING"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Loading_FCP_Category",
+  "type": "STRING"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Loading_FCP",
+  "type": "STRING"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Loading_FID_Category",
+  "type": "STRING"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Loading_FID",
+  "type": "STRING"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Loading_LCP_Category",
+  "type": "STRING"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Loading_LCP",
+  "type": "STRING"
+  },
+  {
+  "mode": "NULLABLE",
+  "name": "Loading_Overall_Category",
+  "type": "STRING"
+  }
   ],
   "BQ_SCHEMA_PSI_SUGGESTIONS": [
-    {
-      "name": "data",
-      "type": "DATE"
-    },
-    {
-      "name": "page",
-      "type": "STRING"
-    },
-    {
-      "name": "device",
-      "type": "STRING"
-    },
-    {
-      "name": "opportunity",
-      "type": "STRING"
-    },
-    {
-      "name": "score",
-      "type": "FLOAT"
-    },
-    {
-      "name": "description",
-      "type": "STRING"
-    },
-    {
-      "name": "economy",
-      "type": "STRING"
-    },
-    {
-      "name": "loading_impact",
-      "type": "FLOAT"
-    },
-    {
-      "name": "data_impact",
-      "type": "INTEGER"
-    },
-    {
-      "name": "suggestion_type",
-      "type": "STRING"
-    }
+  {
+  "name": "data",
+  "type": "DATE"
+  },
+  {
+  "name": "page",
+  "type": "STRING"
+  },
+  {
+  "name": "device",
+  "type": "STRING"
+  },
+  {
+  "name": "opportunity",
+  "type": "STRING"
+  },
+  {
+  "name": "score",
+  "type": "FLOAT"
+  },
+  {
+  "name": "description",
+  "type": "STRING"
+  },
+  {
+  "name": "economy",
+  "type": "STRING"
+  },
+  {
+  "name": "loading_impact",
+  "type": "FLOAT"
+  },
+  {
+  "name": "data_impact",
+  "type": "INTEGER"
+  },
+  {
+  "name": "suggestion_type",
+  "type": "STRING"
+  }
+  ],
+  "BQ_SCHEMA_CRUX_METRICS": [
+  {
+  "name": "data",
+  "type": "DATE",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "year_month",
+  "type": "STRING",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "start",
+  "type": "NUMERIC",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "ended",
+  "type": "NUMERIC",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "form",
+  "type": "STRING",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "origin",
+  "type": "STRING",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "connection",
+  "type": "STRING",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "fcp_density",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "lcp_density",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "dcl_density",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "onload_density",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "fp_density",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "fid_density",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "ttfb_density",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "cls_density",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "good_lcp",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "poor_lcp",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "average_lcp",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "good_fp",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "poor_fp",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "average_fp",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "good_onload",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "poor_onload",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "average_onload",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "good_fcp",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "poor_fcp",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "average_fcp",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "good_dcl",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "poor_dcl",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "average_dcl",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "good_fid",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "poor_fid",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "average_fid",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "good_cls",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "poor_cls",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "average_cls",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "good_ttfb",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "poor_ttfb",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "average_ttfb",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "phone",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "desktop",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "tablet",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "fourG",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "threeG",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "twoG",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "slowtwoG",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  },
+  {
+  "name": "offline",
+  "type": "FLOAT64",
+  "mode": "NULLABLE"
+  }
   ],
   "URLS": [
-    {
-      "URL": "https://www.dp6.com.br",
-      "brand": "DP6",
-      "page": "Home",
-      "strategy": {
-        "desktop": true,
-        "mobile": true
-      }
-    }
+  {
+  "URL": "https://www.dp6.com.br/",
+  "brand": "DP6",
+  "page": "Home",
+  "strategy": {
+  "desktop": true,
+  "mobile": true
+  }
+  }
   ]
-}
+  }
