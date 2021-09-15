@@ -46,10 +46,14 @@ class Crux:
             )
             return list(response.result())[0].values()[0]
         except NotFound:
-            schema_json = json.load(open("schema_json.json"))
+
+            bucket_gcs = os.environ.get('PROJECT_BUCKET_GCS')
+            bucket = self.storage_client.get_bucket(bucket_gcs)
+            blob = bucket.blob('config/config.json')
+            schema_json = json.loads(blob.download_as_string())["BQ_SCHEMA_CRUX_METRICS"]
             schema = []
             for obj in schema_json:
-                schema.append(self.bigquery.SchemaField(obj["field_path"], obj["data_type"], mode=obj["mode"]))
+                schema.append(self.bigquery.SchemaField(obj["name"], obj["type"], mode=obj["mode"]))
             
             table = self.bigquery.Table(self.crux_table, schema = schema)
             table = self.bigquery_client.create_table(table)

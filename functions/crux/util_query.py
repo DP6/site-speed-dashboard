@@ -185,7 +185,10 @@ select
  as limits
 
 )
-select * except(limits),
+select 
+date(cast(regexp_extract(year_month,"^(....)") as INT64 ),cast(regexp_extract(year_month,"(..)$") as INT64),1) as data,
+* except(limits),
+
 
 
 if(start <  (select min from unnest(limits) where metric = "LCP") ,lcp_density,0) as good_lcp,
