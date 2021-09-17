@@ -1,9 +1,9 @@
 const { BigQuery } = require('@google-cloud/bigquery');
 const { Storage } = require('@google-cloud/storage');
 const psi = require('psi');
-const BUCKET_GCS = process.env.PROJECT_BUCKET_GCS;
+const BUCKET_GCS = process.env.PROJECT_BUCKET_GCS || "dp6-site-speed-dashboard";
 const PROJECT_FOLDER = 'config';
-const PSI_KEY = process.env.PSI_KEY;
+const PSI_KEY = process.env.PSI_KEY || "AIzaSyDMowLrCL6VBPQuGwjK7OKAX4kGHmhYqxk";
 let projectConfig = {};
 let debugging = false;
 
@@ -22,6 +22,7 @@ async function getUrls(req, res) {
     const query = req.query;
     debugging = query.debugging; //Se true habilita o log do json de validação
     delete query.debugging;
+    // getUrlsDesktop();
     processPsiData();
 
     res.status(200).send({ debugging: debugging, message: 'Em processamento!' });
@@ -42,27 +43,26 @@ async function makeRequest(urls, strategy) {
       let psi_response = await psi(URL, { strategy: strategy, key: PSI_KEY });
       if (psi_response) {
         let objBase = {};
-        let {lighthouseResult,loadingExperienceResult} = psi_response.data;
+        let {lighthouseResult,loadingExperience} = psi_response.data;
         const LHREsult = lighthouseResult ? _formatLightHouseResult(date,brand,page,URL,lighthouseResult) : null;
-        const LEResult = loadingExperienceResult ? _formatLoadingResult(loadingExperienceResult) : null;
-        let suggestions = formatPSISuggestions(lighthouseResult);
-        trace(`Suggestions: ${suggestions}`);
-        trace (`Lighthouse Results: ${LHREsult}`);
-        trace (`Loading Experience results: ${LEResult}`);
+        const LEResult = loadingExperience ? _formatLoadingResult(loadingExperience) : null;
+        const LHsuggestions = _formatPSISuggestions(lighthouseResult,page,date);
         // let lighthouseResult = psi_response.data.lighthouseResult;
         // let loadingExperienceResult = psi_response.data.loadingExperience;
-        if (LHREsult) objBase = { ...LHREsult };
-        if (LEResult) objBase = { ...LEResult };
+        if (LHREsult) objBase = {...objBase, ...LHREsult };
+        if (LEResult) objBase = { ...objBase,...LEResult };
         psiResults.push(objBase);
-        suggestionResults.push(suggestions);
-        
+        suggestionResults.push(...LHsuggestions);
       }
     } catch (error) {
       trace(JSON.stringify(error));
     }
   });
   await Promise.all(psiRuns);
-  return psiResults,suggestionResults;
+  return {
+    speedResults:psiResults,
+    speedSuggestions:suggestionResults
+  };
 }
 
  /**
@@ -73,7 +73,7 @@ async function makeRequest(urls, strategy) {
      * @param {Object} lighthouseResult.configSettings 
      * @return {Object} LHREsult
      */
-  function _formatLightHouseResult() {
+  function _formatLightHouseResult(date,brand,page,URL,lighthouseResult) {
     
     return {
         Data: date,
@@ -131,9 +131,10 @@ function _formatLoadingResult({ metrics, overall_category }) {
      * @param {String} [pagina="Home"] - Type of page.
      * @returns {Array} opportunities.
      */
-    function formatPSISuggestions({ lighthouseResult }, page = "Home") {
+    function _formatPSISuggestions( lighthouseResult , page = "Home",date) {
       const { audits, categories, configSettings } = lighthouseResult;
       let { auditRefs } = categories.performance;
+
       return auditRefs.filter(({ group }) => group === 'load-opportunities')
           .map(({ id }) => audits[id])
           .filter(({ numericValue }) => numericValue > 0)
@@ -151,29 +152,51 @@ function _formatLoadingResult({ metrics, overall_category }) {
   function _formatSuggestion(opportunity, page, device,date) {
     const { title, score, description, details, displayValue, warning } = opportunity;
     const { items, overallSavingsBytes, type, overallSavingsMs } = details;
+
     return {
-        'Data': date,
-        'Page': page,
-        'Device': device,
-        'Oportunidade': title,
-        'Score': score,
-        'Descrição': description,
-        'Economia': displayValue,
-        'Possivel impacto no tempo de carregamento': overallSavingsMs || '-',
-        'Possivel impacto nos dados': overallSavingsBytes || '',
-        'Tipo de sugestão': type || ''
+        'data': date,
+        'page': page,
+        'device': device,
+        'opportunity': title,
+        'score': score,
+        'description': description,
+        'economy': displayValue,
+        'loading_impact': overallSavingsMs || null,
+        'data_impact': parseInt(overallSavingsBytes) || null,
+        'suggestion_type': type || ''
     }
 }
 
 async function processPsiData() {
   trace('getUrls Desktop');
-  insertRowsAsStream(
-    await getUrlsDesktop(),
+  let desktopResults = await getUrlsDesktop();
+  trace(desktopResults.speedSuggestions);
+  trace('getUrls Mobile');
+  let mobileResults = await getUrlsMobile();
+  trace('streaming desktop psi data to BigQuery');
+  await insertRowsAsStream(
+    desktopResults.speedResults,
     projectConfig.BQ_SCHEMA_PSI_METRICS,
     projectConfig.BQ_TABLE_ID_PSI_METRICS
-  );
-  trace('getUrls Mobile');
-  insertRowsAsStream(await getUrlsMobile(), projectConfig.BQ_SCHEMA_PSI_METRICS, projectConfig.BQ_TABLE_ID_PSI_METRICS);
+    );
+  trace('streaming desktop suggestions data to BigQuery'); 
+  await insertRowsAsStream(
+    desktopResults.speedSuggestions, 
+    projectConfig.BQ_SCHEMA_PSI_SUGGESTIONS, 
+    projectConfig.BQ_TABLE_ID_PSI_SUGGESTIONS
+    );
+    trace('streaming mobile psi data to BigQuery');  
+  await insertRowsAsStream(
+    mobileResults.speedResults, 
+    projectConfig.BQ_SCHEMA_PSI_METRICS, 
+    projectConfig.BQ_TABLE_ID_PSI_METRICS
+    );
+    trace('streaming mobile psi suggestions to BigQuery');
+  await insertRowsAsStream(
+    desktopResults.speedSuggestions, 
+    projectConfig.BQ_SCHEMA_PSI_SUGGESTIONS, 
+    projectConfig.BQ_TABLE_ID_PSI_SUGGESTIONS
+    );
 }
 
 async function getUrlsDesktop(strategy = 'desktop') {

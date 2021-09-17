@@ -118,7 +118,8 @@ resource "google_cloudfunctions_function" "function" {
   entry_point           = local.cf_entry_point
   environment_variables = {
     PROJECT_BUCKET_GCS = local.final_bucket_name
-    PROJECT_DATASET_ID_BQ = local.dataset_id
+    PSI_KEY = var.psi_key
+    BQ_DATASET_ID = local.final_dataset_id
   }
   depends_on = [null_resource.cf_code_zip]
 }
@@ -149,7 +150,7 @@ resource "google_cloudfunctions_function" "crux_data" {
   entry_point           = "main"
   environment_variables = {
     PROJECT_BUCKET_GCS = local.final_bucket_name
-    PROJECT_DATASET_BQ = local.dataset_id
+    BQ_DATASET_ID = local.final_dataset_id
   }
   depends_on = [null_resource.cf_code_zip]
 }
