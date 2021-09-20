@@ -29,7 +29,7 @@ describe('Execução cloud function template', async () => {
     await ffProc;
   });
 
-  it('Deve retornar HTTP status code 200', async () => {
+  it('Deve retornar um HTTP statuscode 200.', async () => {
     const response = await requestEndpoint();
 
     assert.strictEqual(response.statusCode, 200);
