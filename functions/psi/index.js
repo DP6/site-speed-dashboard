@@ -1,6 +1,5 @@
 const { BigQuery } = require('@google-cloud/bigquery');
 const { Storage } = require('@google-cloud/storage');
-require('dotenv').config();
 const psi = require('psi');
 const BUCKET_GCS = process.env.PROJECT_BUCKET_GCS;
 const PROJECT_FOLDER = 'config';
