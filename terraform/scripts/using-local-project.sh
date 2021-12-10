@@ -2,7 +2,7 @@
 #!/bin/bash
 echo "Executando $0  com os parâmetros versão=$1  e bucket=$2"
 echo "Acessando diretorio raiz da cloudfunctio PSI do projeto"
-cd ../functions/psi
+cd ../../functions/psi
 FILE_NAME_PSI="$1-psi.zip"
 echo "" pwd
 echo "Criando Zip PSI"
