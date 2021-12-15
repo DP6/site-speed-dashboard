@@ -6,6 +6,7 @@ const PROJECT_FOLDER = 'config';
 const PSI_KEY = process.env.PSI_KEY;
 let projectConfig = {};
 let debugging = false;
+let fid;
 
 async function getUrls(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
@@ -71,6 +72,7 @@ async function makeRequest(urls, strategy) {
  * @return {Object} LHREsult
  */
 function _formatLightHouseResult(date, brand, page, URL, lighthouseResult) {
+  fid = lighthouseResult.audits['max-potential-fid'].numericValue || null;
   return {
     Data: date,
     Brand: brand,
@@ -110,15 +112,16 @@ function _formatLoadingResult({ metrics, overall_category }) {
     metrics || mock;
 
   return {
-    Loading_CLS_Category: CUMULATIVE_LAYOUT_SHIFT_SCORE.category || 'N/A',
-    Loading_CLS: CUMULATIVE_LAYOUT_SHIFT_SCORE.percentile || '-',
-    Loading_FCP_Category: FIRST_CONTENTFUL_PAINT_MS.category || 'N/A',
-    Loading_FCP: FIRST_CONTENTFUL_PAINT_MS.percentile || '-',
-    Loading_FID_Category: FIRST_INPUT_DELAY_MS.category || 'N/A',
-    Loading_FID: FIRST_INPUT_DELAY_MS.percentile || '-',
-    Loading_LCP_Category: LARGEST_CONTENTFUL_PAINT_MS.category || 'N/A',
-    Loading_LCP: LARGEST_CONTENTFUL_PAINT_MS.percentile || '-',
+    Loading_CLS_Category: CUMULATIVE_LAYOUT_SHIFT_SCORE?.category || 'N/A',
+    Loading_CLS: CUMULATIVE_LAYOUT_SHIFT_SCORE?.percentile || '-',
+    Loading_FCP_Category: FIRST_CONTENTFUL_PAINT_MS?.category || 'N/A',
+    Loading_FCP: FIRST_CONTENTFUL_PAINT_MS?.percentile || '-',
+    Loading_FID_Category: FIRST_INPUT_DELAY_MS?.category || 'N/A',
+    Loading_FID: FIRST_INPUT_DELAY_MS?.percentile || '-',
+    Loading_LCP_Category: LARGEST_CONTENTFUL_PAINT_MS?.category || 'N/A',
+    Loading_LCP: LARGEST_CONTENTFUL_PAINT_MS?.percentile || '-',
     Loading_Overall_Category: overall_category || 'N/A',
+    LAB_FID: fid,
   };
 }
 
