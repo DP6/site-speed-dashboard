@@ -43,7 +43,7 @@ async function makeRequest(urls, strategy) {
         let { lighthouseResult, loadingExperience } = psi_response.data;
         const LHREsult = lighthouseResult ? _formatLightHouseResult(date, brand, page, URL, lighthouseResult) : null;
         const LEResult = loadingExperience ? _formatLoadingResult(loadingExperience) : null;
-        const LHsuggestions = _formatPSISuggestions(lighthouseResult, page, date);
+        const LHsuggestions = _formatPSISuggestions(lighthouseResult, page, date, brand);
         // let lighthouseResult = psi_response.data.lighthouseResult;
         // let loadingExperienceResult = psi_response.data.loadingExperience;
         if (LHREsult) objBase = { ...objBase, ...LHREsult };
@@ -128,16 +128,16 @@ function _formatLoadingResult({ metrics, overall_category }) {
  * @param {String} [pagina="Home"] - Type of page.
  * @returns {Array} opportunities.
  */
-function _formatPSISuggestions(lighthouseResult, page = 'Home', date) {
-  const { audits, categories, configSettings } = lighthouseResult;
+ function _formatPSISuggestions(lighthouseResult, page = 'Home', date, brand = 'DP6') {
+  const { audits, categories, configSettings, finalUrl } = lighthouseResult;
   let { auditRefs } = categories.performance;
 
   return auditRefs
-    .filter(({ group }) => group === 'load-opportunities')
     .map(({ id }) => audits[id])
+    .filter(obj => obj?.details?.type === 'opportunity')
     .filter(({ numericValue }) => numericValue > 0)
     .sort((a, b) => b.numericValue - a.numericValue)
-    .map((opportunity) => _formatSuggestion(opportunity, page, configSettings.formFactor, date));
+    .map((opportunity) => _formatSuggestion(opportunity, page, configSettings.formFactor, date, brand, finalUrl));
 }
 
 /**
@@ -146,7 +146,7 @@ function _formatPSISuggestions(lighthouseResult, page = 'Home', date) {
  * @param {String} [pagina="Home"] - Type of page.
  * @returns {Object} formattedOpportunidy
  */
-function _formatSuggestion(opportunity, page, device, date) {
+function _formatSuggestion(opportunity, page, device, date, brand, url) {
   const { title, score, description, details, displayValue, warning } = opportunity;
   const { items, overallSavingsBytes, type, overallSavingsMs } = details;
 
@@ -161,6 +161,8 @@ function _formatSuggestion(opportunity, page, device, date) {
     loading_impact: overallSavingsMs || null,
     data_impact: parseInt(overallSavingsBytes) || null,
     suggestion_type: type || '',
+    brand: brand,
+    URL: url,
   };
 }
 
@@ -190,7 +192,7 @@ async function processPsiData() {
   );
   trace('streaming mobile psi suggestions to BigQuery');
   await insertRowsAsStream(
-    desktopResults.speedSuggestions,
+    mobileResults.speedSuggestions,
     projectConfig.BQ_SCHEMA_PSI_SUGGESTIONS,
     projectConfig.BQ_TABLE_ID_PSI_SUGGESTIONS
   );
