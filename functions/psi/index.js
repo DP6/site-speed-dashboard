@@ -112,15 +112,15 @@ function _formatLoadingResult({ metrics, overall_category }) {
     metrics || mock;
 
   return {
-    Loading_CLS_Category: CUMULATIVE_LAYOUT_SHIFT_SCORE?.category || 'N/A',
-    Loading_CLS: CUMULATIVE_LAYOUT_SHIFT_SCORE?.percentile || '-',
-    Loading_FCP_Category: FIRST_CONTENTFUL_PAINT_MS?.category || 'N/A',
-    Loading_FCP: FIRST_CONTENTFUL_PAINT_MS?.percentile || '-',
-    Loading_FID_Category: FIRST_INPUT_DELAY_MS?.category || 'N/A',
-    Loading_FID: FIRST_INPUT_DELAY_MS?.percentile || '-',
-    Loading_LCP_Category: LARGEST_CONTENTFUL_PAINT_MS?.category || 'N/A',
-    Loading_LCP: LARGEST_CONTENTFUL_PAINT_MS?.percentile || '-',
-    Loading_Overall_Category: overall_category || 'N/A',
+    Loading_CLS_Category: CUMULATIVE_LAYOUT_SHIFT_SCORE?.category || null,
+    Loading_CLS: CUMULATIVE_LAYOUT_SHIFT_SCORE?.percentile || null,
+    Loading_FCP_Category: FIRST_CONTENTFUL_PAINT_MS?.category || null,
+    Loading_FCP: FIRST_CONTENTFUL_PAINT_MS?.percentile || null,
+    Loading_FID_Category: FIRST_INPUT_DELAY_MS?.category || null,
+    Loading_FID: FIRST_INPUT_DELAY_MS?.percentile || null,
+    Loading_LCP_Category: LARGEST_CONTENTFUL_PAINT_MS?.category || null,
+    Loading_LCP: LARGEST_CONTENTFUL_PAINT_MS?.percentile || null,
+    Loading_Overall_Category: overall_category || null,
     LAB_FID: fid,
   };
 }
