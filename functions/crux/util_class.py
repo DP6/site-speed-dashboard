@@ -7,7 +7,7 @@ import os
 import datetime
 
 class Crux:
-    
+     
     def __init__(self, bigquery_client,crux_table,bigquery,storage_client):
         self.bigquery_client = bigquery_client
         self.crux_table = crux_table      

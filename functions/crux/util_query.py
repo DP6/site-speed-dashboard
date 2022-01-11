@@ -8,7 +8,7 @@ def crux_query(countries,domains,table_suffix):
 
     return """
     with 
-
+ 
 base_crux as (
 
 {country_list}
