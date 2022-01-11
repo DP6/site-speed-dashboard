@@ -1,15 +1,17 @@
 ## Query responsible to retrieve CRUX data at bigquery public dataset.
-def crux_query(domains,table_suffix):
+def crux_query(countries,domains,table_suffix):
+    country_list = ""
+    for ind,c in enumerate(countries):
+        c = "country_" + c if c != "all" else c    
+        union_all = "union all \n" if(ind < (len(countries) - 1)) else ''
+        country_list  = country_list + f"select _TABLE_SUFFIX as year_month , * from  `chrome-ux-report.{c}.*` \n where _TABLE_SUFFIX = '{table_suffix}' and origin in ({domains}) \n {union_all}" 
+
     return """
     with 
 
 base_crux as (
 
-select _TABLE_SUFFIX as year_month , * from  `chrome-ux-report.all.*`
-where _TABLE_SUFFIX = '{table_suffix}'
-and 
-origin in ({domains})
-
+{country_list}
 
 ),
 
@@ -223,18 +225,9 @@ if(start <  (select min from unnest(limits) where metric = "TTFB") ,ttfb_density
 if(start >= (select max from unnest(limits) where metric = "TTFB") ,ttfb_density,0) as poor_ttfb,
 if(start >= (select min from unnest(limits) where metric = "TTFB") and start < (select max from unnest(limits) where metric = "TTFB") ,ttfb_density,0) as average_ttfb,
 
-if(form like "phone",fcp_density,0) as phone,
-if(form like "desktop",fcp_density,0) as desktop,
-if(form like "tablet",fcp_density,0) as tablet,
-
-if(connection like "4G",fcp_density,0) as fourG,
-if(connection like "3G",fcp_density,0) as threeG,
-if(connection like "2G",fcp_density,0) as twoG,
-if(connection like "Slow 2G",fcp_density,0) as slowtwoG,
-if(connection like "Offline",fcp_density,0) as offline,
 
 
 from base_final ,thresholds as t
 
 
-""".format(domains = domains,table_suffix = table_suffix)
+""".format(domains = domains,table_suffix = table_suffix, country_list = country_list)

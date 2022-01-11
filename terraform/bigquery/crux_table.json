@@ -154,37 +154,5 @@
   {
     "name": "average_ttfb",
     "type": "FLOAT"
-  },
-  {
-    "name": "phone",
-    "type": "FLOAT"
-  },
-  {
-    "name": "desktop",
-    "type": "FLOAT"
-  },
-  {
-    "name": "tablet",
-    "type": "FLOAT"
-  },
-  {
-    "name": "fourG",
-    "type": "FLOAT"
-  },
-  {
-    "name": "threeG",
-    "type": "FLOAT"
-  },
-  {
-    "name": "twoG",
-    "type": "FLOAT"
-  },
-  {
-    "name": "slowtwoG",
-    "type": "FLOAT"
-  },
-  {
-    "name": "offline",
-    "type": "FLOAT"
   }
 ]
