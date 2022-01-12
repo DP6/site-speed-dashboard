@@ -1,9 +1,7 @@
 from google.cloud import bigquery
 from google.cloud import storage
-from google.cloud.exceptions import NotFound
 from util_class import Crux
 import logging
-import json
 import os
 
 logging.basicConfig(level=logging.INFO)

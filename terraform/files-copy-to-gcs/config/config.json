@@ -372,46 +372,6 @@
   "name": "average_ttfb",
   "type": "FLOAT64",
   "mode": "NULLABLE"
-  },
-  {
-  "name": "phone",
-  "type": "FLOAT64",
-  "mode": "NULLABLE"
-  },
-  {
-  "name": "desktop",
-  "type": "FLOAT64",
-  "mode": "NULLABLE"
-  },
-  {
-  "name": "tablet",
-  "type": "FLOAT64",
-  "mode": "NULLABLE"
-  },
-  {
-  "name": "fourG",
-  "type": "FLOAT64",
-  "mode": "NULLABLE"
-  },
-  {
-  "name": "threeG",
-  "type": "FLOAT64",
-  "mode": "NULLABLE"
-  },
-  {
-  "name": "twoG",
-  "type": "FLOAT64",
-  "mode": "NULLABLE"
-  },
-  {
-  "name": "slowtwoG",
-  "type": "FLOAT64",
-  "mode": "NULLABLE"
-  },
-  {
-  "name": "offline",
-  "type": "FLOAT64",
-  "mode": "NULLABLE"
   }
   ],
   "URLS": [
@@ -424,5 +384,6 @@
   "mobile": true
   }
   }
-  ]
-  }
+  ],
+  "COUNTRIES":["all"]
+  } 

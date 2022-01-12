@@ -7,7 +7,7 @@ import os
 import datetime
 
 class Crux:
-    
+     
     def __init__(self, bigquery_client,crux_table,bigquery,storage_client):
         self.bigquery_client = bigquery_client
         self.crux_table = crux_table      
@@ -56,10 +56,18 @@ class Crux:
                 schema.append(self.bigquery.SchemaField(obj["name"], obj["type"], mode=obj["mode"]))
             
             table = self.bigquery.Table(self.crux_table, schema = schema)
+            table.clustering_fields = ["data"]
+            table.description = 'Tabela com métricas coletadas do CrUX'
+            table.labels = {"produto": "site-speed-dashboard"}
+            table.time_partitioning = self.bigquery.TimePartitioning(
+                type_ = self.bigquery.TimePartitioningType.DAY,
+                field = "data",
+                expiration_ms = None,
+            )
+            table.require_partition_filter = False
             table = self.bigquery_client.create_table(table)
             logging.info("CRUX database created successfully.")       
             return False
-        
    
     def get_domains(self):
         
@@ -73,8 +81,15 @@ class Crux:
                 url = "'" + re.sub(r'(\/)$','',value["URL"]) + "'"
                 domains.append(url)
         return ",".join(domains)
-
-
+    
+    def get_countries(self):
+        
+        bucket_gcs = os.environ.get('PROJECT_BUCKET_GCS')
+        bucket = self.storage_client.get_bucket(bucket_gcs)
+        blob = bucket.blob('config/config.json')
+        countries_json = json.loads(blob.download_as_string())
+            
+        return countries_json["COUNTRIES"]
 
 
     def update_crux_table(self):
@@ -85,8 +100,10 @@ class Crux:
             job_config.allow_large_results = True
 
             domains = self.get_domains()
+            countries = self.get_countries()
             table_suffix = self.table_suffix()
-            sql_query = crux_query(domains,table_suffix)
+
+            sql_query = crux_query(countries,domains,table_suffix)
             
             rows_before_response = self.check_rows()
             response = self.bigquery_client.query(sql_query,job_config = job_config)  
