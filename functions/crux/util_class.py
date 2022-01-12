@@ -56,6 +56,15 @@ class Crux:
                 schema.append(self.bigquery.SchemaField(obj["name"], obj["type"], mode=obj["mode"]))
             
             table = self.bigquery.Table(self.crux_table, schema = schema)
+            table.clustering_fields = ["data"]
+            table.description = 'Tabela com métricas coletadas do CrUX'
+            table.labels = {"produto": "site-speed-dashboard"}
+            table.time_partitioning = self.bigquery.TimePartitioning(
+                type_ = self.bigquery.TimePartitioningType.DAY,
+                field = "data",
+                expiration_ms = None,
+            )
+            table.require_partition_filter = False
             table = self.bigquery_client.create_table(table)
             logging.info("CRUX database created successfully.")       
             return False
