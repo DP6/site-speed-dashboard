@@ -1,9 +1,9 @@
 
 #!/bin/bash
-echo "Executando $0  com os parâmetros versão=$1  e bucket=$2"
+echo "Executando $0 com os parâmetros versão=$1  e bucket=$2"
 echo "Acessando diretorio raiz da cloudfunctio PSI do projeto"
-cd ../../functions/psi
-FILE_NAME_PSI="$1-psi.zip"
+cd ../functions/psi
+FILE_NAME_PSI="$1.zip"
 echo "" pwd
 echo "Criando Zip PSI"
 zip -r $FILE_NAME_PSI package.json index.js README.md
@@ -12,7 +12,7 @@ mv $FILE_NAME_PSI ./../../terraform/files-copy-to-gcs/config/
 
 echo "Acessando diretorio raiz da cloudfunctio CRUX do projeto"
 cd ../crux
-FILE_NAME_CRUX="$1-crux.zip"
+FILE_NAME_CRUX="crux_data.zip"
 zip -r $FILE_NAME_CRUX *
 echo "Movendo Zip para terraform/files-copy-to-gcs/config/"
 mv $FILE_NAME_CRUX ./../../terraform/files-copy-to-gcs/config/

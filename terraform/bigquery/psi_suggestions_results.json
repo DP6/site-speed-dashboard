@@ -38,5 +38,13 @@
   {
     "name": "suggestion_type",
     "type": "STRING"
+  },
+  {
+    "name": "brand",
+    "type": "STRING"
+  },
+  {
+    "name": "url",
+    "type": "STRING"
   }
 ]

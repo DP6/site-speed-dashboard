@@ -133,6 +133,11 @@
   "mode": "NULLABLE",
   "name": "Loading_Overall_Category",
   "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Lab_FID",
+    "type": "FLOAT"
   }
   ],
   "BQ_SCHEMA_PSI_SUGGESTIONS": [
@@ -174,6 +179,14 @@
   },
   {
   "name": "suggestion_type",
+  "type": "STRING"
+  },
+  {
+  "name": "brand",
+  "type": "STRING"
+  },
+  {
+  "name": "url",
   "type": "STRING"
   }
   ],
