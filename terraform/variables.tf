@@ -11,6 +11,7 @@ locals {
   final_dataset_id                 = "${var.project_prefix}_${var.dataset_id}"
   final_bucket_name                = "${var.project_prefix}-${var.bucket_name}"
   gcs_bucket_folder_name           = "config"
+  project_prefix                   = "${var.project_prefix}"
 }
 
 #######################################
