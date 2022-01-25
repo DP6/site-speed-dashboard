@@ -11,6 +11,11 @@ resource "google_storage_bucket" "my_storage" {
   }
 }
 
+resource "local_file" "config_json" { 
+  content = templatefile("./config_template.tftpl", { dataset = local.project_prefix }) 
+  filename = "./files-copy-to-gcs/config/config.json"
+}
+
 resource "null_resource" "cf_code_zip" {
   triggers = {
     on_version_change = var.project_version
