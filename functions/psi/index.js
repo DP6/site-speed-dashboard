@@ -8,11 +8,16 @@ let projectConfig = {};
 let debugging = false;
 let fid;
 
+/**
+ * Gets urls and processes data.
+ * @param {Object} req
+ * @param {Object} res
+ */
 async function getUrls(req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Credentials', 'true');
 
-  // Liberação de CROS
+  // CROS liberation
   if (req.method === 'OPTIONS') {
     res.set('Access-Control-Allow-Methods', 'GET, POST');
     res.set('Access-Control-Allow-Headers', 'Authorization, Content-Type');
@@ -21,14 +26,20 @@ async function getUrls(req, res) {
   } else {
     projectConfig = await loadProjectConfig();
     const query = req.query;
-    debugging = query.debugging; //Se true habilita o log do json de validação
+    debugging = query.debugging; // If true validation json log is enabled
     delete query.debugging;
     processPsiData();
 
-    res.status(200).send({ debugging: debugging, message: 'Em processamento!' });
+    res.status(200).send({ debugging: debugging, message: 'Processing!' });
   }
 }
 
+/**
+ * Requests api results for the given urls and strategies.
+ * @param {Object} urls
+ * @param {Object} strategy
+ * @return {Object} psiResults, suggestionResults
+ */
 async function makeRequest(urls, strategy) {
   const psiResults = [];
   const suggestionResults = [];
@@ -37,17 +48,15 @@ async function makeRequest(urls, strategy) {
 
   const psiRuns = urls.map(async ({ URL, brand, page }) => {
     try {
-      trace(`Iniciando requisição: ${brand} ${strategy}`);
+      trace(`Initializing Requisition: ${brand} ${strategy}`);
       let psi_response = await psi(URL, { strategy: strategy, key: PSI_KEY });
       if (psi_response) {
         let objBase = {};
         let { lighthouseResult, loadingExperience } = psi_response.data;
-        const LHREsult = lighthouseResult ? _formatLightHouseResult(date, brand, page, URL, lighthouseResult) : null;
+        const LHResult = lighthouseResult ? _formatLightHouseResult(date, brand, page, URL, lighthouseResult) : null;
         const LEResult = loadingExperience ? _formatLoadingResult(loadingExperience) : null;
         const LHsuggestions = _formatPSISuggestions(lighthouseResult, page, date, brand);
-        // let lighthouseResult = psi_response.data.lighthouseResult;
-        // let loadingExperienceResult = psi_response.data.loadingExperience;
-        if (LHREsult) objBase = { ...objBase, ...LHREsult };
+        if (LHResult) objBase = { ...objBase, ...LHResult };
         if (LEResult) objBase = { ...objBase, ...LEResult };
         psiResults.push(objBase);
         suggestionResults.push(...LHsuggestions);
@@ -69,7 +78,7 @@ async function makeRequest(urls, strategy) {
  * @param {Object} lighthouseResult.audits
  * @param {Object} lighthouseResult.categories
  * @param {Object} lighthouseResult.configSettings
- * @return {Object} LHREsult
+ * @return {Object} LHResult
  */
 function _formatLightHouseResult(date, brand, page, URL, lighthouseResult) {
   fid = lighthouseResult.audits['max-potential-fid'].numericValue || null;
@@ -131,7 +140,7 @@ function _formatLoadingResult({ metrics, overall_category }) {
  * @param {String} [pagina="Home"] - Type of page.
  * @returns {Array} opportunities.
  */
- function _formatPSISuggestions(lighthouseResult, page = 'Home', date, brand = 'DP6') {
+function _formatPSISuggestions(lighthouseResult, page = 'Home', date, brand = 'DP6') {
   const { audits, categories, configSettings, finalUrl } = lighthouseResult;
   let { auditRefs } = categories.performance;
 
@@ -169,6 +178,9 @@ function _formatSuggestion(opportunity, page, device, date, brand, url) {
   };
 }
 
+/**
+ * Processes PSI API respondes.
+ */
 async function processPsiData() {
   trace('getUrls Desktop');
   let desktopResults = await getUrlsDesktop();
@@ -201,6 +213,11 @@ async function processPsiData() {
   );
 }
 
+/**
+ * Gets all URLs with strategy = desktop.
+ * @param {Object} strategy
+ * @returns {Object} desktopResults
+ */
 async function getUrlsDesktop(strategy = 'desktop') {
   const base = await loadProjectConfig();
   const urls = base.URLS.filter(({ strategy }) => !!strategy.desktop);
@@ -208,6 +225,11 @@ async function getUrlsDesktop(strategy = 'desktop') {
   return desktopResults;
 }
 
+/**
+ * Gets all URLs with strategy = mobile.
+ * @param {Object} strategy
+ * @returns {Object} desktopResults
+ */
 async function getUrlsMobile(strategy = 'mobile') {
   const base = await loadProjectConfig();
   const urls = base.URLS.filter(({ strategy }) => !!strategy.mobile);
@@ -216,8 +238,8 @@ async function getUrlsMobile(strategy = 'mobile') {
 }
 
 /**
- * Realiza a persistências dos dados por Stream no BigQuery
- * @param {Array} data Dados estruturados no padrão de persistência do BQ
+ * Persists data on BigQuery via Stream
+ * @param {Array} data Structured data in BQ's persistency standard
  */
 async function insertRowsAsStream(data, schema, tableId) {
   const bigquery = new BigQuery();
@@ -235,7 +257,7 @@ async function insertRowsAsStream(data, schema, tableId) {
 }
 
 /**
- * Carrega o arquivo de configuração armazenado no GCS
+ * Loads configuration file stored in GCS
  */
 async function loadProjectConfig() {
   const storage = new Storage();
@@ -247,6 +269,11 @@ async function loadProjectConfig() {
   return JSON.parse(projectConfig);
 }
 
+/**
+ * Hanndles error.
+ * @param {Object} err
+ * @param {Object} apiResponse
+ */
 function insertHandler(err, apiResponse) {
   if (err) {
     console.error(err.name, JSON.stringify(err));
@@ -254,8 +281,8 @@ function insertHandler(err, apiResponse) {
 }
 
 /**
- * Enviado o log para o stdout, se somente se, a variável debugging = true
- * @param {Object} log Que será apresentado no stdout
+ * Sends log to stdout if, and only if, the variable debugging = true
+ * @param {Object} log That will be presented in stdout
  */
 function trace(log) {
   if (debugging) {

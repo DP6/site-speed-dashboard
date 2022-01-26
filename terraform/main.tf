@@ -1,5 +1,5 @@
 ######################################################
-#Configurações Cloud Storage
+# Cloud Storage Configuration
 ######################################################
 resource "google_storage_bucket" "my_storage" {
   name          = local.final_bucket_name
@@ -22,14 +22,14 @@ resource "null_resource" "cf_code_zip" {
   }
 
   provisioner "local-exec" {
-    command = "sh scripts/${var.project_version != "local" ? "download-project.sh" : "using-local-project.sh"} ${var.project_version} ${local.final_bucket_name}"
+    command = "sh scripts/create_and_send_zips ${var.project_version} ${local.final_bucket_name}"
   }
 
   depends_on = [google_storage_bucket.my_storage]
 }
 
 ######################################################
-#Configurações bigquery
+# BigQuery Configuration
 ######################################################
 #dataset
 resource "google_bigquery_dataset" "site_speed_dashboard" {
@@ -46,7 +46,7 @@ resource "google_bigquery_dataset" "site_speed_dashboard" {
 resource "google_bigquery_table" "psi_metrics_results" {
   dataset_id          = local.final_dataset_id
   table_id            = local.bq_table_psi_metrics_results
-  description         = "Tabela com métricas coletadas do PageSpeed Insights"
+  description         = "Table with PageSpeed Insights collected metrics"
   schema              = file("bigquery/psi_metrics_results.json")
   clustering          = ["data"]
   expiration_time     = null
@@ -66,7 +66,7 @@ resource "google_bigquery_table" "psi_metrics_results" {
 resource "google_bigquery_table" "crux_table" {
   dataset_id          = local.final_dataset_id
   table_id            = local.bq_table_crux_table
-  description         = "Tabela com métricas coletadas do CrUX"
+  description         = "Table with CrUX collected metrics"
   schema              = file("bigquery/crux_table.json")
   clustering          = ["data"]
   expiration_time     = null
@@ -86,7 +86,7 @@ resource "google_bigquery_table" "crux_table" {
 resource "google_bigquery_table" "psi_suggestions_results" {
   dataset_id          = local.final_dataset_id
   table_id            = local.bq_table_psi_suggestions_results
-  description         = "Tabela com sugestões coletadas do PageSpeed Insights"
+  description         = "Table with PageSpeed Insights collected Suggestions"
   schema              = file("bigquery/psi_suggestions_results.json")
   clustering          = ["data"]
   expiration_time     = null
@@ -106,12 +106,12 @@ resource "google_bigquery_table" "psi_suggestions_results" {
 
 
 ##################################
-#Configurações Cloud Function
+# Cloud Function Configuration
 ##################################
-resource "google_cloudfunctions_function" "function" {
+resource "google_cloudfunctions_function" "psi" {
   project               = var.project_id
   name                  = local.cf_name
-  description           = "Execução do PageSpeed Insights para coleta de métricas de performance"
+  description           = "Execution of PageSpeed Insights API to collect performance metrics"
   runtime               = "nodejs14"
   service_account_email = var.service_account_email
   region                = var.region
@@ -133,8 +133,8 @@ resource "google_cloudfunctions_function" "function" {
 # IAM entry for all users to invoke the function
 resource "google_cloudfunctions_function_iam_member" "invoker" {
   project        = var.project_id
-  region         = google_cloudfunctions_function.function.region
-  cloud_function = google_cloudfunctions_function.function.name
+  region         = google_cloudfunctions_function.psi.region
+  cloud_function = google_cloudfunctions_function.psi.name
 
   role   = "roles/cloudfunctions.invoker"
   member = "allUsers"
@@ -143,7 +143,7 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
 resource "google_cloudfunctions_function" "crux_data" {
   project               = var.project_id
   name                  = "crux_data"
-  description           = "Cole de métricas de performance do CrUX"
+  description           = "Execution of CrUX API to collect performance metrics"
   runtime               = "python39"
   service_account_email = var.service_account_email
   region                = var.region
@@ -155,7 +155,8 @@ resource "google_cloudfunctions_function" "crux_data" {
   entry_point           = "main"
   environment_variables = {
     PROJECT_BUCKET_GCS = local.final_bucket_name
-    BQ_DATASET_ID = local.final_dataset_id
+    PROJECT_DATASET_BQ = local.final_dataset_id
+    PROJECT_NAME = local.project_id
   }
   depends_on = [null_resource.cf_code_zip]
 }
@@ -165,7 +166,7 @@ resource "google_cloudfunctions_function" "crux_data" {
 # IAM entry for all users to invoke the function
 resource "google_cloudfunctions_function_iam_member" "invoker_crux" {
   project        = var.project_id
-  region         = google_cloudfunctions_function.function.region
+  region         = google_cloudfunctions_function.psi.region
   cloud_function = google_cloudfunctions_function.crux_data.name
 
   role   = "roles/cloudfunctions.invoker"
@@ -175,11 +176,11 @@ resource "google_cloudfunctions_function_iam_member" "invoker_crux" {
 
 
 ##################################
-#Configurações do Job Scheduler
+# Job Scheduler Configuration
 ##################################
 resource "google_cloud_scheduler_job" "job" {
   name             = "site-speed-dashboard-schedule"
-  description      = "test http job"
+  description      = "PageSpeed Insights API HTTP Trigger"
   schedule         = "0 7 * * *"
   time_zone        = "America/Sao_Paulo"
   attempt_deadline = "320s"
@@ -190,13 +191,13 @@ resource "google_cloud_scheduler_job" "job" {
 
   http_target {
     http_method = "GET"
-    uri         = "https://${google_cloudfunctions_function.function.region}-${var.project_id}.cloudfunctions.net/${local.cf_name}"
+    uri         = "https://${google_cloudfunctions_function.psi.region}-${var.project_id}.cloudfunctions.net/${local.cf_name}"
   }
 }
 
 resource "google_cloud_scheduler_job" "job_crux" {
   name             = "site-speed-dashboard-schedule-crux-data"
-  description      = "test http job"
+  description      = "CrUX API HTTP Trigger"
   schedule         = "0 17 * * *"
   time_zone        = "America/Sao_Paulo"
   attempt_deadline = "320s"

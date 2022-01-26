@@ -20,7 +20,7 @@ def main(event,context):
 
     if(crux.check_last_month()):
         logging.info("Previously updated CRUX table.")
-        return "Finalizado!"
+        return "Finished!"
         
     else:
          
@@ -30,4 +30,4 @@ def main(event,context):
                 logging.info("CRUX table updated successfully.") 
         else:
             logging.info("CRUX table not available.")
-        return "Em execução!"
+        return "Executing!"
