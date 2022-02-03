@@ -1,5 +1,5 @@
 {
-  "BQ_DATASET_ID": "testedp6_site_speed_dashboard",
+  "BQ_DATASET_ID": "${dataset}_sitespeed",
   "BQ_TABLE_ID_PSI_METRICS": "psi_metrics_results",
   "BQ_TABLE_ID_PSI_SUGGESTIONS": "psi_suggestions_results",
   "BQ_TABLE_ID_CRUX": "crux_table",
@@ -398,5 +398,5 @@
   }
   }
   ],
-  "COUNTRIES":["br" ]
+  "COUNTRIES":[%{ for value in lista ~} "${trimspace(value)}"${index(lista, value) == length(lista)-1 ? "" : ","} %{ endfor ~}]
   } 

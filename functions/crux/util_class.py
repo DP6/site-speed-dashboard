@@ -99,15 +99,23 @@ class Crux:
             job_config.write_disposition = 'WRITE_APPEND'
             job_config.allow_large_results = True
 
+            logging.info('Getting domains')
             domains = self.get_domains()
+
+            logging.info('Getting countries')
             countries = self.get_countries()
+            
+            logging.info('Getting table suffix')
             table_suffix = self.table_suffix()
 
+            logging.info('Querying data')
             sql_query = crux_query(countries,domains,table_suffix)
             
             rows_before_response = self.check_rows()
             response = self.bigquery_client.query(sql_query,job_config = job_config)  
             rows_after_response = response.result().total_rows
+            logging.info(f'{rows_after_response} rows retrieved')
+
             table_loaded = rows_after_response > rows_before_response           
             if(table_loaded == False):
                 logging.error("CRUX table loading error.")

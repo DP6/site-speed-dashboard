@@ -16,16 +16,20 @@ dataset = os.environ.get('PROJECT_DATASET_BQ')
 crux_table = "{project}.{dataset}.crux_table".format(project=project,dataset=dataset)
 crux = Crux(bigquery_client,crux_table,bigquery,storage_client)
 
-def main(event,context):
+def main(context):
 
+    log = ""
     if(crux.check_last_month()):
-        logging.info("Previously updated CRUX table.")
+        log = "Previously updated CRUX table."
         
     else:
          
         if(crux.check_table_crux()):
             response = crux.update_crux_table()
             if(response == True):
-                logging.info("CRUX table updated successfully.") 
+                log = "CRUX table updated successfully." 
         else:
-            logging.info("CRUX table not available.")
+            log = "CRUX table not available."
+    
+    logging.info(log)
+    return log

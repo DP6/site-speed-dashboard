@@ -128,5 +128,10 @@
     "mode": "NULLABLE",
     "name": "Loading_Overall_Category",
     "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Lab_FID",
+    "type": "FLOAT"
   }
 ]
