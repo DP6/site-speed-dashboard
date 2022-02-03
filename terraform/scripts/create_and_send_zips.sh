@@ -1,9 +1,8 @@
-
 #!/bin/bash
 echo "Executando $0 com os parâmetros versão=$1 e bucket=$2"
 
-FILE_NAME_PSI="$1.zip"
-FILE_NAME_CRUX="crux_data.zip"
+FILE_NAME_PSI="psi.zip"
+FILE_NAME_CRUX="crux.zip"
 
 if [ "$1" != "local" ]; then
     echo "Baixando o projeto"

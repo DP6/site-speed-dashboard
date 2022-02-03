@@ -398,5 +398,5 @@
   }
   }
   ],
-  "COUNTRIES":["all"]
+  "COUNTRIES":[%{ for value in lista ~} "${trimspace(value)}"${index(lista, value) == length(lista)-1 ? "" : ","} %{ endfor ~}]
   } 
