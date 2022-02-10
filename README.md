@@ -64,7 +64,7 @@
 
 ### 1.2 Dependências ambiente local
 
-1. [Google Cloud SDK ](https://cloud.google.com/sdk/docs/install?hl=pt-br)
+1. [Google Cloud SDK](https://cloud.google.com/sdk/docs/install?hl=pt-br)
 2. Pacotes zip, unzip e curl
 3. [Criar service Account](https://cloud.google.com/iam/docs/creating-managing-service-accounts) com as permissões (Storage Object Admin, Cloud Functions Admin, BigQuery Admin e Service Account User)
 4. Variável [GOOGLE_APPLICATION_CREDENTIALS](https://cloud.google.com/docs/authentication/getting-started#setting_the_environment_variable)
