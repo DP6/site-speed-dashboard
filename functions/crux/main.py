@@ -21,13 +21,12 @@ def main(context):
     log = ""
     if(crux.check_last_month()):
         log = "Previously updated CRUX table."
-        
     else:
          
         if(crux.check_table_crux()):
             response = crux.update_crux_table()
             if(response == True):
-                log = "CRUX table updated successfully." 
+                log = "CRUX table updated successfully."
         else:
             log = "CRUX table not available."
     
