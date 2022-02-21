@@ -7,10 +7,11 @@ import os
 import datetime
 
 class Crux:
-     
+
     def __init__(self, bigquery_client,crux_table,bigquery,storage_client):
+
         self.bigquery_client = bigquery_client
-        self.crux_table = crux_table      
+        self.crux_table = crux_table
         self.bigquery = bigquery
         self.storage_client = storage_client
 
@@ -22,19 +23,17 @@ class Crux:
         return lastMonth.strftime("%Y%m")
 
     def check_rows(self):
-      
-        table = self.bigquery_client.get_table(self.crux_table)
-        return table.num_rows 
 
+        table = self.bigquery_client.get_table(self.crux_table)
+        return table.num_rows
 
     def check_table_crux(self):
         try:
             full_table = "chrome-ux-report.all." + self.table_suffix()
-            query_job = self.bigquery_client.get_table(full_table)
             return True
 
         except NotFound:
-            return False        
+            return False
         
     def check_last_month(self):
         try:
@@ -76,7 +75,7 @@ class Crux:
         blob = bucket.blob('config/config.json')
         domains_json = json.loads(blob.download_as_string())
         domains = []
-        for ind,value in enumerate(domains_json["URLS"]):
+        for value in domains_json["URLS"]:
             if value["page"] == "Home":
                 url = "'" + re.sub(r'(\/)$','',value["URL"]) + "'"
                 domains.append(url)
@@ -112,16 +111,14 @@ class Crux:
             sql_query = crux_query(countries,domains,table_suffix)
             
             rows_before_response = self.check_rows()
-            response = self.bigquery_client.query(sql_query,job_config = job_config)  
+            response = self.bigquery_client.query(sql_query,job_config = job_config)
             rows_after_response = response.result().total_rows
             logging.info(f'{rows_after_response} rows retrieved')
 
-            table_loaded = rows_after_response > rows_before_response           
+            table_loaded = rows_after_response > rows_before_response
             if(table_loaded == False):
                 logging.error("CRUX table loading error.")
-
-            return table_loaded 
+            return table_loaded
         except Exception as error:
             logging.error(error)
-            
             return False
