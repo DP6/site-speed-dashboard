@@ -17,92 +17,121 @@
   </a>
 </p>
 
-<!--
-<div align="center">
-<img src="https://raw.githubusercontent.com/DP6/templates-centro-de-inovacoes/main/public/images/centro_de_inovacao_dp6.png" height="100px" />
-</div>
+Site Speed Dashboard is an open source tool developed by DP6 to help you measure performance in your websites. The project is structured in [Google Cloud Plataform](https://console.cloud.google.com) (GCP) and composed of a JS script that will extract simulated data from Google's [PageSpeed Insights](https://developers.google.com/speed/docs/insights/v5/about) API, and a Python script that will extract real data from Google's [Chrome User Experience Report](https://developers.google.com/web/tools/chrome-user-experience-report) public dataset in Google BigQuery.
 
-<p align="center">
-  <a href="#badge">
-    <img alt="semantic-release" src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg">
-  </a>
-  <a href="https://www.codacy.com/gh/DP6/{{token-codacy}}/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DP6/{{repo}}&amp;utm_campaign=Badge_Coverage"><img alt="Code coverage" src="https://app.codacy.com/project/badge/Coverage/{{token-codacy}}"/></a>
-  <a href="#badge">
-    <img alt="Test" src="https://github.com/dp6/{{repo}}/actions/workflows/test.yml/badge.svg">
-  </a>
-  <a href="https://www.codacy.com/gh/DP6/{{repo}}/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DP6/{{repo}}&amp;utm_campaign=Badge_Grade">
-    <img alt="Code quality" src="https://app.codacy.com/project/badge/Grade/{{token-codacy}}">
-  </a>
-</p>
--->
+All this data is then stored in BigQuery's tables and connected to a Google Data Studio Dashboard in order to help you visualize the data and get insights in how to improve performance!
 
-{{Texto introdutorio}}
+# Content
+- [GCP Requirements](#gcp-requirements)
+- [Local Environment Requirements](#local-environment-requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
 
-## Entendendo os running do NPM
+# GCP Requirements 
 
-- **unit-test**: Realiza uma bateria de testes unitários dos arquivos de js presentes na pasta test/unit;
-- **integration-test**: Realiza uma bateria de testes de integração dos arquivos de js presentes na pasta test/integration;
-- **all-test**:Realiza uma bateria de todos os testes presentes na pasta test/;
-- **test**: alias para o comando `all-test`;
-- **lint-md**: Submete o código a markdown a uma avaliação do `remark`;
-- **lint-prettier**: Submete o código a uma avaliação utilizando o [Prettier](https://prettier.io/), de acordo com a configuração descrita no arquivo .prettierrc;,
-- **lint**: Alias para executar todos os lints;
-- **format**: Formata todo o código do projeto, utilizando o [Prettier](https://prettier.io/), de acordo com a configuração descrita no arquivo .prettierrc;
-- **coverage**: Análise da cobertura dos testes;
-- **local**: Executa a cloud function localmente utilizando o functions-frameworks;
-- **coverage**: "nyc --reporter=lcov --reporter=cobertura npm run unit-test",
-- **docs**: Gera a documentção do código fonte seguindo o padrão do `jsdoc2md` aplicado no arquivo index.js, a doc é armanezada em docs/index.md",
-
-## 1. Requisitos para utilização
-
-### 1.1 Produtos do GCP
-
-- BigQuery
+This project creates resources in Google Cloud Plataform to extract and store data. Because of that, the first requirement is to have a **GCP's project with active billing**.
+## **Resources**
+During terraform's execution, these resources will be created:
 - Cloud Storage
+- BigQuery
 - Cloud Function
-- Service account
+- Cloud Scheduler
 
-### 1.2 Dependências ambiente local
+And in order for the creation to succeed, you'll need to active the following:
+- Cloud Storage
+- BigQuery API
+- Cloud Functions API
+- Cloud Build API
+- Cloud Resource Manager API
+- BigQuery Data Transfer API
+- Cloud Scheduler API
 
-1. [Google Cloud SDK](https://cloud.google.com/sdk/docs/install?hl=pt-br)
-2. Pacotes zip, unzip e curl
-3. [Criar service Account](https://cloud.google.com/iam/docs/creating-managing-service-accounts) com as permissões (Storage Object Admin, Cloud Functions Admin, BigQuery Admin e Service Account User)
-4. Variável [GOOGLE_APPLICATION_CREDENTIALS](https://cloud.google.com/docs/authentication/getting-started#setting_the_environment_variable)
-5. Instalar o [Terraform](https://www.terraform.io/downloads.html)
-6. Habilitar os produtos no GCP Cloud Function, BigQuery, Cloud Build API, Cloud Resource Manager API, BigQuery Data Transfer API e Cloud Storage, para uso do BigQuery é necessário ter um billing ativo
+If you are not familiar with activating resouces in GCP, follow [this](https://cloud.google.com/endpoints/docs/openapi/enable-api) guide and search for the sources listed above. 
 
-_Observação:_ Utilizando o ambiente no [Google Cloud Shell](https://cloud.google.com/shell/docs) não é necessário fazer os **1**, **2**, **4** e **5**
+## **Service Account**
+After the activation, you'll need to create a [Service Account](https://cloud.google.com/iam/docs/creating-managing-service-accounts) with the following permissions:
+- Storage Object Admin
+- Cloud Functions Admin
+- BigQuery Admin
+- Service Account User
 
-## 2. Instalando
+## **Next Steps**
 
-Clone o projeto do github para sua máquina local ou Cloud Shell
+In the next steps, you'll need to run a terraform script. You can use a local environment in order to do so or you can run directly into GCP, using [Google Cloud Shell](https://cloud.google.com/shell/docs). 
+
+We personally recommend using Google Cloud Shell because of its facility, as you don't need to install anything. If you're going to use your local environment, check [Requirements Local Environment](#requirements-local-environment). Otherwise, skip this section.
+
+# Local Environment Requirements
+
+In order for the code to run locally, you'll need to install the following:
+
+- Package [zip](https://www.tecmint.com/install-zip-and-unzip-in-linux/)
+- Package [unzip](https://www.tecmint.com/install-zip-and-unzip-in-linux/)
+- Package [curl](https://www.tecmint.com/install-curl-in-linux/)
+- [Google Cloud SDK](https://cloud.google.com/sdk/docs/install?hl=pt-br)
+- [Terraform](https://www.terraform.io/downloads.html)
+
+After that, you'll need to set GOOGLE_APPLICATION_CREDENTIALS environment variable with the service account key. You can download this key from GCP, in the same place where the service account was created. If you're not familiar with setting environment variables, follow [this](https://cloud.google.com/docs/authentication/getting-started#setting_the_environment_variable) guide.
+
+  
+# Installation
+
+## Create an API Key
+
+To be able to get CrUX and PSI data, you'll need an API key, which you can get in [this](https://developers.google.com/web/tools/chrome-user-experience-report/api/guides/getting-started#APIKey) link, which will automatically create a key and return its value. You can also create an API key directly in the [credentials page](https://console.developers.google.com/apis/credentials) in GCP.
+
+## Running Terraform Script
+
+Clone this project into you local computer or to Cloud Shell.
 
 ```console
 git clone https://github.com/DP6/site-speed-dashboard.git
 ```
 
-Para fazer deploy no GCP usando o Terraform, o utilize o shell script terraform_deploy
+After that, run the following:
 
 ```console
 cd site-speed-dashboard/
 sh terraform_deploy.sh
 ```
 
-## Como contribuir
+Wait for the code to run and after finishing, check GCP in order to confirm if the resources were created successfully.
 
-Pull requests são bem-vindos! Nós vamos adorar ajuda para evoluir esse modulo. Sinta-se livre para navegar por issues abertas buscando por algo que possa fazer. Caso tenha uma nova feature ou bug, por favor abra uma nova issue para ser acompanhada pelo nosso time.
+# Configuration
 
-### Requisitos obrigatórios
+### URLs
+The next step is to set the configuration file that was created in Cloud Storage. To do that, access [this](https://console.cloud.google.com/storage/browser) link and search for a bucket with the name [project-prefix]-sitespeed, with project-prefix beeing the variable of the same name that was set during terraform's execution. 
 
-Só serão aceitas contribuições que estiverem seguindo os seguintes requisitos:
+Within the bucket, open the "config" folder, find the "config.json" file and download it. Open the file and edit the URLS array, adding the URLs that you want to analyze in the format shown below.
 
-- [Padrão de commit](https://www.conventionalcommits.org/en/v1.0.0/)
+<img src="https://raw.githubusercontent.com/DP6/templates-centro-de-inovacoes/main/public/images/site_speed_dashboard_config_file.png"/>
 
-### Api Docs
+### CRuX Countries (Optional)
+In case you want to change in which countries crux data will be extracted, you can also alter the COUNTRIES array, adding or removing countries using the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
+
+```
+"COUNTRIES": ["br", "fr"]   // In this case, Brazil's and France's 
+                            // data will be extracted  
+```
+
+### Deploy
+After finishing the setup, upload the file into the same GCP bucket, overwriting the previous file. After that, the setup is finished and you'll start collecting performance data on your BQ tables!
+
+# How to contribute
+
+Pull requests are welcome! We will love help to evolve this module. Feel free to browse open issues looking for something you can do. If you have a new feature or bug, please open a new issue to be followed up by our team.
+
+## Mandatory requirements
+
+Only contributions that meet the following requirements will be accepted:
+
+- [Commit pattern](https://www.conventionalcommits.org/en/v1.0.0/)
+
+## Api Docs
 
 - [Index.js](https://github.com/dp6/site-speed-dashboard/blob/master/docs/index.md)
 
-## Suporte:
+# Support:
 
 **DP6 Koopa-troopa Team**
 
