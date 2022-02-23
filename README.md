@@ -176,8 +176,8 @@ Only contributions that meet the following requirements will be accepted:
 
 ## Api Docs
 
-- [PSI](https://github.com/dp6/site-speed-dashboard/blob/master/functions/psi/README.md)
-- [CrUX](https://github.com/dp6/site-speed-dashboard/blob/master/functions/crux/README.md)
+- [PSI](https://github.com/dp6/site-speed-dashboard/blob/master/functions/psi)
+- [CrUX](https://github.com/dp6/site-speed-dashboard/blob/master/functions/crux)
 
 # Support:
 
