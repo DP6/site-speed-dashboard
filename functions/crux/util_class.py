@@ -38,9 +38,9 @@ class Crux:
     def check_last_month(self):
         try:
             response = self.bigquery_client.query("""
-                SELECT if(count(*) > 0,true,false) as check_rows FROM `{table}`
-                where year_month = '{year_month}'
-
+                SELECT if(count(*) > 0,true,false) as check_rows 
+                FROM `{table}`
+                WHERE year_month = '{year_month}'
                 """.format(year_month = self.table_suffix(), table = self.crux_table)
             )
             return list(response.result())[0].values()[0]
