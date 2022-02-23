@@ -1,78 +1,117 @@
-## Functions
+# Overview
 
 <dl>
-<dt><a href="#createSchemaBq">createSchemaBq(result, queryString, schemaName)</a> ⇒ <code>Array</code></dt>
-<dd><p>Monta as linhas para serem inseridas no BQ</p>
-</dd>
-<dt><a href="#addTimestamp">addTimestamp(data)</a> ⇒ <code>Object</code></dt>
-<dd><p>Adiciona o atributo data para o objeto, contendo o timestamp do momento da execução</p>
-</dd>
+
+<dt><a href="#getUrls">getUrls(req, res)</a></dt>
+<dd><p>Gets urls and processes data</p></dd>
+
+<dt><a href="#getUrlsDesktop">getUrlsDesktop(strategy => 'desktop')</a></dt>
+<dd><p>Gets all URLs with strategy = desktop</p></dd>
+
+<dt><a href="#getUrlsMobile">getUrlsMobile(strategy => 'mobile')</a></dt>
+<dd><p>Gets all URLs with strategy = mobile</p></dd>
+
+<dt><a href="#makeRequest">makeRequest(urls, strategy)</a></dt>
+<dd><p>Requests api results for the given urls and strategies</p></dd>
+
+<dt><a href="#processPsiData">processPsiData()</a></dt>
+<dd><p>Processes PSI API responses</p></dd>
+
 <dt><a href="#insertRowsAsStream">insertRowsAsStream(data)</a></dt>
-<dd><p>Realiza a persistências dos dados por Stream no BigQuery</p>
-</dd>
+<dd><p>Persists data on BigQuery via Stream</p></dd>
+
 <dt><a href="#loadProjectConfig">loadProjectConfig()</a></dt>
-<dd><p>Carrega o arquivo de configuração armazenado no GCS</p>
-</dd>
+<dd><p>Loads configuration file stored into Google Cloud Storage</p></dd>
+
 <dt><a href="#trace">trace(log)</a></dt>
-<dd><p>Enviado o log para o stdout, se somente se, a variável debugging = true</p>
-</dd>
+<dd><p>Sends log into stdout only if the variable debugging = true</p></dd>
+
 </dl>
 
-<a name="createSchemaBq"></a>
+# Parameters
 
-## createSchemaBq(result, queryString, schemaName) ⇒ <code>Array</code>
+<a name="getUrls"></a>
 
-Monta as linhas para serem inseridas no BQ
+## getUrls(req, res)
 
-**Kind**: global function  
-**Returns**: <code>Array</code> - Dados estruturados para o BQ
-
-| Param       | Type                | Description                                  |
-| ----------- | ------------------- | -------------------------------------------- |
-| result      | <code>Array</code>  | Status das chaves validadas                  |
-| queryString | <code>Object</code> |                                              |
-| schemaName  | <code>String</code> | Identificação do schema usado para validação |
-
-<a name="addTimestamp"></a>
-
-## addTimestamp(data) ⇒ <code>Object</code>
-
-Adiciona o atributo data para o objeto, contendo o timestamp do momento da execução
-
-**Kind**: global function  
-**Returns**: <code>Object</code> - Objeto com o atributo no padrão yyyy-mm-ddThh:mm:ss
-
-| Param | Type                | Description |
-| ----- | ------------------- | ----------- |
-| data  | <code>Object</code> | Objeto      |
-
-<a name="insertRowsAsStream"></a>
-
-## insertRowsAsStream(data)
-
-Realiza a persistências dos dados por Stream no BigQuery
+Gets urls and processes data
 
 **Kind**: global function
 
 | Param | Type               | Description                                        |
 | ----- | ------------------ | -------------------------------------------------- |
-| data  | <code>Array</code> | Dados estruturados no padrão de persistência do BQ |
+| req  | <code>String</code> | Dados estruturados no padrão de persistência do BQ 
+| res  | <code>String</code> | Dados estruturados no padrão de persistência do BQ 
+|
+
+
+<a name="getUrlsDesktop"></a>
+
+## getUrlsDesktop(strategy => 'desktop')
+
+Gets all URLs with strategy = desktop
+
+**Kind**: global function
+
+<a name="getUrlsMobile"></a>
+
+## getUrlsMobile(strategy => 'mobile')
+
+Gets all URLs with strategy = mobile
+
+**Kind**: global function
+
+<a name="makeRequest"></a>
+
+## makeRequest(urls, strategy)
+
+Requests api results for the given urls and strategies
+
+**Kind**: global function
+
+| Param | Type               | Description                                        |
+| ----- | ------------------ | -------------------------------------------------- |
+| urls  | <code>Array</code> | URL base information (url, brand, page)
+| strategy  | <code>Array</code> | Strategy that will be used in the request (desktop, mobile) 
+|
+
+<a name="processPsiData"></a>
+
+## processPsiData()
+
+Processes PSI API responses
+
+**Kind**: global function
+
+<a name="insertRowsAsStream"></a>
+
+## insertRowsAsStream(data)
+
+Persists data on BigQuery via Stream
+
+**Kind**: global function
+
+| Param | Type               | Description                                        |
+| ----- | ------------------ | --------------------- |
+| data  | <code>Array</code> | Structured data in the persistency standard of BigQuery
+|
 
 <a name="loadProjectConfig"></a>
 
 ## loadProjectConfig()
 
-Carrega o arquivo de configuração armazenado no GCS
+Loads configuration file stored into Google Cloud Storage
 
 **Kind**: global function  
 <a name="trace"></a>
 
 ## trace(log)
 
-Enviado o log para o stdout, se somente se, a variável debugging = true
+Sends log into stdout only if the variable debugging = true
 
 **Kind**: global function
 
 | Param | Type                | Description                    |
 | ----- | ------------------- | ------------------------------ |
-| log   | <code>Object</code> | Que será apresentado no stdout |
+| log   | <code>Object</code> | Text that will be shown in stdout
+|
