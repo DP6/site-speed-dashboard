@@ -3,7 +3,7 @@ from google.cloud import storage
 from util_class import Crux
 import logging
 import os
-
+ 
 logging.basicConfig(level=logging.INFO)
 
 storage_client = storage.Client()

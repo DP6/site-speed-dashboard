@@ -9,12 +9,12 @@ locals {
   gcs_bucket_folder_name           = "config"
   
   cf_name_psi                      = "${var.project_prefix}-sitespeed-psi"
-  cf_name_crux			   = "${var.project_prefix}-sitespeed-crux"
+  cf_name_crux			               = "${var.project_prefix}-sitespeed-crux"
   cf_entry_point_psi               = "getUrls"
   cf_entry_point_crux              = "main"
   
-  scheduler_name_psi		   = "${var.project_prefix}-sitespeed-psi-job"
-  scheduler_name_crux		   = "${var.project_prefix}-sitespeed-crux-job"
+  scheduler_name_psi		           = "${var.project_prefix}-sitespeed-psi-job"
+  scheduler_name_crux		           = "${var.project_prefix}-sitespeed-crux-job"
   scheduler_time_zone              = "America/Sao_Paulo"
   scheduler_attempt_deadline       = "320s"
   

@@ -26,6 +26,9 @@ All this data is then stored in BigQuery's tables and connected to a Google Data
 - [Local Environment Requirements](#local-environment-requirements)
 - [Installation](#installation)
 - [Configuration](#configuration)
+- [Dashboard](#dashboard)
+- [How to contribute](#how-to-contribute)
+- [Support](#support)
 
 # GCP Requirements 
 
@@ -106,7 +109,7 @@ Within the bucket, open the "config" folder, find the "config.json" file and dow
 
 <img src="https://raw.githubusercontent.com/DP6/templates-centro-de-inovacoes/main/public/images/site_speed_dashboard_config_file.png"/>
 
-### CRuX Countries (Optional)
+### CrUX Countries (Optional)
 In case you want to change in which countries crux data will be extracted, you can also alter the COUNTRIES array, adding or removing countries using the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
 
 ```
@@ -114,8 +117,52 @@ In case you want to change in which countries crux data will be extracted, you c
                             // data will be extracted  
 ```
 
-### Deploy
+### Deployment
 After finishing the setup, upload the file into the same GCP bucket, overwriting the previous file. After that, the setup is finished and you'll start collecting performance data on your BQ tables!
+
+# Dashboard
+After installing and seting up the urls and countries, you'll have the "back-end" done and ready to work, but you still won't be able to visualize the data you are collecting. In order to do that, you'll have to follow through the steps below.
+
+## Duplicating Data Sources
+In the dataset created in your GCP project, you can find three tables:
+
+- crux_table
+- psi_metrics_results
+- psi_suggestion_results
+
+Each table will compose a different Data Studio data source and all these datasources will compose the dashboard, that, in turn, will create the data visualization. You'll have to duplicate all the data sources below:
+
+- [CrUX Table - Template [Data Source - Bigquery]](https://datastudio.google.com/datasources/521b4106-d002-45d4-b428-f359ea9d4b33)
+- [PSI Table Results - Template [Data Source - Bigquery]](https://datastudio.google.com/datasources/4184e227-e6bf-4323-b224-f684ad58ee9b)
+- [PSI Table Suggestions - Template [Data Source - Bigquery]](https://datastudio.google.com/datasources/1313adbe-412a-406e-beef-e7313238c43b)
+
+To duplicate, follow the steps below:
+1. Click the
+<img src="https://lh3.googleusercontent.com/V6jKS63Ya_QVoDo7PfKcheXZ-j9Zcih4H8VxaBOMSGesBIT2m97cFIsHazykztgXwOrS=w36"  style="height: 20px; width:20px;"/> icon 
+on the top menu of each data source and then click "Copy Data Source".
+
+2. Select the GCP project in which you created your site speed dashboard BigQuery tables
+
+3. Select the BigQuery data source created when executing the terraform script
+
+4. Select the corresponding table that matches the Data Studio data source selected
+
+At the end, you'll have 3 new data sources connected to your tables.
+
+## Duplicating the dashboard template
+
+After duplicating the data sources, you'll need to duplicate the dashboard itself. To do that, follow this steps:
+
+1. Open the [Site Speed Dashboard - Template](https://datastudio.google.com/reporting/19dd4850-55a1-42ef-9de1-43f776b9ddbb/page/p_3exd7jginc) dashboard.
+
+2. Duplicate the dashboard by clicking at the 
+<img src="https://lh3.googleusercontent.com/Kz1M6nAGoh2SvZ44eaZ_c1scIotCBl_qJzei-gV6Q3RwuLm21XVaqfQMUK2bgzxmoLU=w36-h36" style="height: 20px; width:20px;"/> icon on the top menu and then at <img src="https://lh3.googleusercontent.com/V6jKS63Ya_QVoDo7PfKcheXZ-j9Zcih4H8VxaBOMSGesBIT2m97cFIsHazykztgXwOrS=w36"  style="height: 20px; width:20px;"/> *Make a Copy* option.
+
+3. Link each Original Data Source to your newly created data sources
+
+4. Click *Copy Report*.
+
+Now you have a beautiful dashboard ready to be used!
 
 # How to contribute
 
@@ -129,7 +176,8 @@ Only contributions that meet the following requirements will be accepted:
 
 ## Api Docs
 
-- [Index.js](https://github.com/dp6/site-speed-dashboard/blob/master/docs/index.md)
+- [PSI](https://github.com/dp6/site-speed-dashboard/blob/master/functions/psi)
+- [CrUX](https://github.com/dp6/site-speed-dashboard/blob/master/functions/crux)
 
 # Support:
 
