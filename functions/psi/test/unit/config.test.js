@@ -23,4 +23,3 @@ describe('Arquivo de configuração', () => {
     expect(config).to.have.own.property('BQ_SCHEMA_PSI_METRICS');
   });
 });
- 

@@ -39,12 +39,12 @@ Gets urls and processes data
 **Kind**: global function
 
 | Param | Type                | Description             |
-| ----- | ------------------- | ------------------------|
+| ----- | ------------------- | ----------------------- |
 | req   | <code>String</code> | Request for the PSI API |
 | res   | <code>String</code> | Response of the PSI API |
 
-
 <a name="getUrlsDesktop"></a>
+
 ## getUrlsDesktop(strategy => 'desktop')
 
 Gets all URLs with strategy = desktop
@@ -67,10 +67,10 @@ Requests api results for the given urls and strategies
 
 **Kind**: global function
 
-| Param     | Type               | Description                      |
-| -----     | ------------------ | -------------------------------- |
-| urls      | <code>Array</code> | URL base information (url, brand, page) |
-| strategy  | <code>Array</code> | Strategy that will be used in the request (desktop, mobile) |
+| Param    | Type               | Description                                                 |
+| -------- | ------------------ | ----------------------------------------------------------- |
+| urls     | <code>Array</code> | URL base information (url, brand, page)                     |
+| strategy | <code>Array</code> | Strategy that will be used in the request (desktop, mobile) |
 
 <a name="processPsiData"></a>
 
@@ -88,8 +88,8 @@ Persists data on BigQuery via Stream
 
 **Kind**: global function
 
-| Param | Type               | Description                        |
-| ----- | ------------------ | ---------------------------------- |
+| Param | Type               | Description                                             |
+| ----- | ------------------ | ------------------------------------------------------- |
 | data  | <code>Array</code> | Structured data in the persistency standard of BigQuery |
 
 <a name="loadProjectConfig"></a>
@@ -107,6 +107,6 @@ Sends log into stdout only if the variable debugging = true
 
 **Kind**: global function
 
-| Param | Type                | Description                      |
-| ----- | ------------------- | -------------------------------- |
-| log   | <code>Object</code> | Text that will be shown in stdout|
+| Param | Type                | Description                       |
+| ----- | ------------------- | --------------------------------- |
+| log   | <code>Object</code> | Text that will be shown in stdout |
