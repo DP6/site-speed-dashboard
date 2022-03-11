@@ -19,13 +19,13 @@ else
 fi
 
 echo "Criando Zip PSI"
-zip -r $FILE_NAME_PSI package.json index.js README.md
+zip -r $FILE_NAME_PSI package.json index.js
 echo "Movendo Zip para terraform/files-copy-to-gcs/config/"
 mv $FILE_NAME_PSI ./../../../site-speed-dashboard/terraform/files-copy-to-gcs/config/
 
 echo "Acessando diretorio raiz da Cloud Function CRUX do projeto"
 cd ../crux
-zip -r $FILE_NAME_CRUX *
+zip -r $FILE_NAME_CRUX main.py util_class.py util_query.class requirements.txt
 echo "Movendo Zip para terraform/files-copy-to-gcs/config/"
 mv $FILE_NAME_CRUX ./../../../site-speed-dashboard/terraform/files-copy-to-gcs/config/
 
