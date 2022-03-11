@@ -72,7 +72,6 @@ describe('Template Cloud Function', () => {
     it('Deve retornar um objeto de metricas do PSI', async () => {
       let response = await cloudFunction.getUrlsDesktop();
       expect(response).to.be.an('object').that.not.empty;
-      console.log(response)
       expect(response.speedResults[0]).to.have.own.property('Data');
       expect(response.speedResults[0]).to.have.own.property('Brand');
       expect(response.speedResults[0]).to.have.own.property('Page');

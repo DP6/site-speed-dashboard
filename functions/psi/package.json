@@ -72,7 +72,7 @@
     "remark": "^13.0.0",
     "remark-cli": "^9.0.0",
     "request": "^2.88.2",
-    "requestretry": "^5.0.0",
+    "requestretry": "^7.0.2",
     "uuid": "^8.3.2"
   }
 }
