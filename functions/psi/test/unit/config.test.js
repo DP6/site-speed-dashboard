@@ -13,7 +13,7 @@ describe('Arquivo de configuração', () => {
   });
   it('Deve possuir o atributo BQ_DATASET_ID', async () => {
     expect(config).to.have.own.property('BQ_DATASET_ID');
-    expect(config.BQ_DATASET_ID).to.equal('dp6-site-speed-dashboard');
+    //expect(config.BQ_DATASET_ID).to.equal('dp6-site-speed-dashboard');
   });
   it('Deve possuir o atributo BQ_TABLE_ID_PSI_METRICS', async () => {
     expect(config).to.have.own.property('BQ_TABLE_ID_PSI_METRICS');

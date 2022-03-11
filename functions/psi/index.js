@@ -146,7 +146,7 @@ function _formatPSISuggestions(lighthouseResult, page = 'Home', date, brand = 'D
 
   return auditRefs
     .map(({ id }) => audits[id])
-    .filter(obj => obj?.details?.type === 'opportunity')
+    .filter((obj) => obj?.details?.type === 'opportunity')
     .filter(({ numericValue }) => numericValue > 0)
     .sort((a, b) => b.numericValue - a.numericValue)
     .map((opportunity) => _formatSuggestion(opportunity, page, configSettings.formFactor, date, brand, finalUrl));
