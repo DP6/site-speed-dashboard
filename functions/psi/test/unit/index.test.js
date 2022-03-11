@@ -70,7 +70,7 @@ describe('Template Cloud Function', () => {
     });
     it('Deve retornar um array de metricas do PSI', async () => {
       let response = await cloudFunction.getUrlsDesktop();
-      expect(response).to.be.an('array').that.not.empty;
+      expect(response).to.be.an('object').that.not.empty;
       expect(response[0]).to.have.own.property('Data');
       expect(response[0]).to.have.own.property('Brand');
       expect(response[0]).to.have.own.property('Page');
@@ -97,7 +97,7 @@ describe('Template Cloud Function', () => {
     });
     it('Deve retornar um array de metricas do PSI', async () => {
       let response = await cloudFunction.getUrlsMobile();
-      expect(response).to.be.an('array').that.not.empty;
+      expect(response).to.be.an('object').that.not.empty;
       expect(response[0]).to.have.own.property('Data');
       expect(response[0]).to.have.own.property('Brand');
       expect(response[0]).to.have.own.property('Page');
