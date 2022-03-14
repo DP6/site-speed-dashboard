@@ -60,7 +60,7 @@ After the activation, you'll need to create a [Service Account](https://cloud.go
 
 ## **Next Steps**
 
-In the next steps, you'll need to run a terraform script. You can use a local environment in order to do so or you can run directly into GCP, using [Google Cloud Shell](https://cloud.google.com/shell/docs). 
+In the next step, you'll need to run a terraform script. You can use a local environment in order to do so or you can run directly into GCP, using [Google Cloud Shell](https://cloud.google.com/shell/docs). 
 
 We personally recommend using Google Cloud Shell because of its facility, as you don't need to install anything. If you're going to use your local environment, check [Local Environment Requirements](#local-environment-requirements). Otherwise, skip this section.
 
