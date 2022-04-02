@@ -14,22 +14,29 @@ class Crux:
         self.crux_table = crux_table
         self.bigquery = bigquery
         self.storage_client = storage_client
-
-    def table_suffix(self):
-
-        today = datetime.date.today()
-        first = today.replace(day=1)
-        lastMonth = first - datetime.timedelta(days=1)
-        return lastMonth.strftime("%Y%m")
-
+    
     def check_rows(self):
 
         table = self.bigquery_client.get_table(self.crux_table)
         return table.num_rows
 
+
+    def table_suffix(self):
+
+        minus_days = 1
+        if(self.check_rows() == 0):
+            minus_days = 32
+        today = datetime.date.today()
+        first = today.replace(day=1)
+        lastMonth = first - datetime.timedelta(days=minus_days)
+        return lastMonth.strftime("%Y%m")
+
+    
+
     def check_table_crux(self):
         try:
             full_table = "chrome-ux-report.all." + self.table_suffix()
+            query_job = self.bigquery_client.get_table(full_table)
             return True
 
         except NotFound:
