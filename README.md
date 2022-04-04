@@ -81,7 +81,7 @@ After that, you'll need to set GOOGLE_APPLICATION_CREDENTIALS environment variab
 
 ## Create an API Key
 
-To be able to get CrUX and PSI data, you'll need an API key, which you can get in [this](https://developers.google.com/web/tools/chrome-user-experience-report/api/guides/getting-started#APIKey) link, which will automatically create a key and return its value. You can also create an API key directly in the [credentials page](https://console.developers.google.com/apis/credentials) in GCP.
+To be able to get CrUX and PSI data, you'll need an API key, which you can get in [this](https://developers.google.com/speed/docs/insights/v5/get-started) link, which will automatically create a key and return its value. You can also create an API key directly in the [credentials page](https://console.developers.google.com/apis/credentials) in GCP.
 
 ## Running Terraform Script
 
