@@ -22,13 +22,21 @@ Site Speed Dashboard is an open source tool developed by DP6 to help you measure
 All this data is then stored in BigQuery's tables and connected to a Google Data Studio Dashboard in order to help you visualize the data and get insights in how to improve performance!
 
 # Content
+- [Disclaimer Crux](#disclaimer-crux)
 - [GCP Requirements](#gcp-requirements)
 - [Local Environment Requirements](#local-environment-requirements)
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Dashboard](#dashboard)
-- [How to contribute](#how-to-contribute)
+- [How to Contribute](#how-to-contribute)
 - [Support](#support)
+
+# Disclaimer Crux
+This project uses CrUX's public BigQuery table and, because of that, the project is subject to CrUX's rules, which are:
+- Data update frequency is M-1. That means that the table is refreshed once per month (usually the first tuesday of the month) with data from the previous month. So if you're querying after the first tuesday of April, you'll get March's data.
+- Data is extracted only from the origin URL / home page of sites. For example, at CrUX's table we can find "https://www.dp6.com.br/" but not "https://www.dp6.com.br/servicos/".
+
+So when you're replicating this project, take this in note so you're not suprised if there's urls missing or your data isn't being refreshed daily.
 
 # GCP Requirements 
 
@@ -113,8 +121,7 @@ Within the bucket, open the "config" folder, find the "config.json" file and dow
 In case you want to change in which countries crux data will be extracted, you can also alter the COUNTRIES array, adding or removing countries using the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) format.
 
 ```
-"COUNTRIES": ["br", "fr"]   // In this case, Brazil's and France's 
-                            // data will be extracted  
+"COUNTRIES": ["br", "fr"]   // In this case, Brazil's and France's data will be extracted  
 ```
 
 ### Deployment
