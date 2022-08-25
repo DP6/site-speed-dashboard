@@ -61,7 +61,7 @@ If you are not familiar with activating resouces in GCP, follow [this](https://c
 
 ## **Service Account**
 After the activation, you'll need to create a [Service Account](https://cloud.google.com/iam/docs/creating-managing-service-accounts) with the following permissions:
-- Storage Object Admin
+- Storage Admin
 - Cloud Functions Admin
 - BigQuery Admin
 - Service Account User
