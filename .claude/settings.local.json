@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(superpowers:requesting-code-review)",
+      "Skill(superpowers:requesting-code-review:*)",
+      "WebFetch(domain:docs.cloud.google.com)",
+      "Skill(superpowers:brainstorming)",
+      "Skill(superpowers:brainstorming:*)",
+      "Skill(superpowers:writing-plans)",
+      "Skill(superpowers:writing-plans:*)",
+      "Skill(superpowers:subagent-driven-development)",
+      "Skill(superpowers:subagent-driven-development:*)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(terraform validate *)",
+      "Bash(terraform init *)",
+      "Bash(del functions\\\\crux\\\\Procfile)",
+      "Bash(git rm *)"
+    ]
+  }
+}

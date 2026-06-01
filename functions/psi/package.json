@@ -20,7 +20,7 @@
     "coverage": "nyc --reporter=lcov --reporter=cobertura npm run unit-test",
     "docs": "jsdoc2md index.js > docs/index.md",
     "local": "functions-framework --target=getUrls --signature-type=http --port 8080",
-    "start": "functions-framework --target=getUrls"
+    "start": "node job.js"
   },
   "author": "DP6",
   "contributors": [
@@ -55,7 +55,6 @@
   },
   "dependencies": {
     "@google-cloud/bigquery": "^5.6.0",
-    "@google-cloud/functions-framework": ">=3.0.0",
     "@google-cloud/storage": "^5.8.4",
     "psi": "^4.1.0"
   },

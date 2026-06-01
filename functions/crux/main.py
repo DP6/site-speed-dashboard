@@ -1,4 +1,3 @@
-import functions_framework
 from google.cloud import bigquery
 from google.cloud import storage
 from util_class import Crux
@@ -17,20 +16,24 @@ crux_table = "{project}.{dataset}.crux_table".format(project=project, dataset=da
 crux = Crux(bigquery_client, crux_table, bigquery, storage_client)
 
 
-@functions_framework.http
-def main(request):
-
+def run():
     log = ""
     if(crux.check_last_month()):
         log = "Previously updated CRUX table."
     else:
-         
+
         if(crux.check_table_crux()):
             response = crux.update_crux_table()
             if(response == True):
                 log = "CRUX table updated successfully."
         else:
             log = "CRUX table not available."
-    
+
     logging.info(log)
     return log
+
+
+if __name__ == '__main__':
+    logging.info('CrUX Job started')
+    result = run()
+    logging.info('CrUX Job finished: %s', result)

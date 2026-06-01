@@ -285,10 +285,16 @@ function trace(log) {
   }
 }
 
+async function runJob() {
+  projectConfig = await loadProjectConfig();
+  await processPsiData();
+}
+
 module.exports = {
   loadProjectConfig,
   insertRowsAsStream,
   getUrlsDesktop: getUrlsDesktop,
   getUrlsMobile: getUrlsMobile,
   getUrls,
+  runJob,
 };
