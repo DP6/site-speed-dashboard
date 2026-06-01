@@ -110,6 +110,7 @@ resource "google_bigquery_table" "psi_suggestions_results" {
 ##################################
 resource "google_cloudfunctions2_function" "psi" {
   name        = local.cf_name_psi
+  project     = var.project_id
   location    = var.region
   description = "Execution of PageSpeed Insights API to collect performance metrics"
 
@@ -153,6 +154,7 @@ resource "google_cloud_run_service_iam_member" "invoker_psi" {
 
 resource "google_cloudfunctions2_function" "crux" {
   name        = local.cf_name_crux
+  project     = var.project_id
   location    = var.region
   description = "Execution of CrUX API to collect performance metrics"
 
