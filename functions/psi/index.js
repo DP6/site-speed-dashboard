@@ -245,10 +245,16 @@ async function insertRowsAsStream(data, schema, tableId) {
   };
 
   trace(data);
-  // Insert data into a table
-  await bigquery.dataset(projectConfig.BQ_DATASET_ID).table(tableId).insert(data, options, insertHandler);
-
-  console.log(`Inserted ${data.length} rows`);
+  try {
+    await bigquery.dataset(projectConfig.BQ_DATASET_ID).table(tableId).insert(data, options);
+    console.log(`Inserted ${data.length} rows into ${tableId}`);
+  } catch (err) {
+    console.error(`INSERT ERROR into ${tableId}:`, err.name, JSON.stringify(err));
+    if (err.errors) {
+      err.errors.forEach(e => console.error('Row error:', JSON.stringify(e)));
+    }
+    throw err;
+  }
 }
 
 /**
@@ -271,7 +277,12 @@ async function loadProjectConfig() {
  */
 function insertHandler(err, apiResponse) {
   if (err) {
-    console.error(err.name, JSON.stringify(err));
+    console.error('INSERT ERROR:', err.name, JSON.stringify(err));
+    if (err.errors) {
+      err.errors.forEach(e => console.error('Row error:', JSON.stringify(e)));
+    }
+  } else {
+    console.log('INSERT SUCCESS:', JSON.stringify(apiResponse));
   }
 }
 
