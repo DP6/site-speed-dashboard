@@ -19,7 +19,8 @@
     "test": "npm -- run all-test",
     "coverage": "nyc --reporter=lcov --reporter=cobertura npm run unit-test",
     "docs": "jsdoc2md index.js > docs/index.md",
-    "local": "functions-framework --target=getUrls --signature-type=http --port 8080"
+    "local": "functions-framework --target=getUrls --signature-type=http --port 8080",
+    "start": "functions-framework --target=getUrls"
   },
   "author": "DP6",
   "contributors": [
