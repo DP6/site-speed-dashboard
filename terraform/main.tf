@@ -108,69 +108,90 @@ resource "google_bigquery_table" "psi_suggestions_results" {
 ##################################
 # Cloud Function Configuration
 ##################################
-resource "google_cloudfunctions_function" "psi" {
-  project               = var.project_id
-  name                  = local.cf_name_psi
-  description           = "Execution of PageSpeed Insights API to collect performance metrics"
-  runtime               = "nodejs14"
-  service_account_email = var.service_account_email
-  region                = var.region
-  available_memory_mb   = 512
-  timeout               = 540
-  source_archive_bucket = google_storage_bucket.my_storage.name
-  source_archive_object = "${local.gcs_bucket_folder_name}/psi.zip"
-  trigger_http          = true
-  entry_point           = local.cf_entry_point_psi
-  environment_variables = {
-    PROJECT_BUCKET_GCS = local.bucket_name
-    PSI_KEY = var.psi_key
-    BQ_DATASET_ID = local.dataset_id
+resource "google_cloudfunctions2_function" "psi" {
+  name        = local.cf_name_psi
+  location    = var.region
+  description = "Execution of PageSpeed Insights API to collect performance metrics"
+
+  build_config {
+    runtime     = "nodejs20"
+    entry_point = local.cf_entry_point_psi
+    source {
+      storage_source {
+        bucket = google_storage_bucket.my_storage.name
+        object = "${local.gcs_bucket_folder_name}/psi.zip"
+      }
+    }
   }
+
+  service_config {
+    max_instance_count    = 1
+    available_memory      = "512Mi"
+    timeout_seconds       = 540
+    service_account_email = var.service_account_email
+    environment_variables = {
+      PROJECT_BUCKET_GCS = local.bucket_name
+      PSI_KEY            = var.psi_key
+      BQ_DATASET_ID      = local.dataset_id
+    }
+  }
+
+  labels = {
+    produto = local.project_name
+  }
+
   depends_on = [null_resource.cf_code_zip]
 }
 
-
-# IAM entry for all users to invoke the function
-resource "google_cloudfunctions_function_iam_member" "invoker" {
-  project        = var.project_id
-  region         = google_cloudfunctions_function.psi.region
-  cloud_function = google_cloudfunctions_function.psi.name
-
-  role   = "roles/cloudfunctions.invoker"
-  member = "allUsers"
+resource "google_cloud_run_service_iam_member" "invoker_psi" {
+  project  = var.project_id
+  location = google_cloudfunctions2_function.psi.location
+  service  = google_cloudfunctions2_function.psi.name
+  role     = "roles/run.invoker"
+  member   = "serviceAccount:${var.service_account_email}"
 }
 
-resource "google_cloudfunctions_function" "crux" {
-  project               = var.project_id
-  name                  = local.cf_name_crux
-  description           = "Execution of CrUX API to collect performance metrics"
-  runtime               = "python39"
-  service_account_email = var.service_account_email
-  region                = var.region
-  available_memory_mb   = 256
-  timeout               = 120
-  source_archive_bucket = google_storage_bucket.my_storage.name
-  source_archive_object = "${local.gcs_bucket_folder_name}/crux.zip"
-  trigger_http          = true
-  entry_point           = local.cf_entry_point_crux
-  environment_variables = {
-    PROJECT_BUCKET_GCS = local.bucket_name
-    PROJECT_DATASET_BQ = local.dataset_id
-    PROJECT_NAME = local.project_id
+resource "google_cloudfunctions2_function" "crux" {
+  name        = local.cf_name_crux
+  location    = var.region
+  description = "Execution of CrUX API to collect performance metrics"
+
+  build_config {
+    runtime     = "python312"
+    entry_point = local.cf_entry_point_crux
+    source {
+      storage_source {
+        bucket = google_storage_bucket.my_storage.name
+        object = "${local.gcs_bucket_folder_name}/crux.zip"
+      }
+    }
   }
+
+  service_config {
+    max_instance_count    = 1
+    available_memory      = "256Mi"
+    timeout_seconds       = 120
+    service_account_email = var.service_account_email
+    environment_variables = {
+      PROJECT_BUCKET_GCS = local.bucket_name
+      PROJECT_DATASET_BQ = local.dataset_id
+      PROJECT_NAME       = local.project_id
+    }
+  }
+
+  labels = {
+    produto = local.project_name
+  }
+
   depends_on = [null_resource.cf_code_zip]
 }
 
-
-
-# IAM entry for all users to invoke the function
-resource "google_cloudfunctions_function_iam_member" "invoker_crux" {
-  project        = var.project_id
-  region         = google_cloudfunctions_function.psi.region
-  cloud_function = google_cloudfunctions_function.crux.name
-
-  role   = "roles/cloudfunctions.invoker"
-  member = "allUsers"
+resource "google_cloud_run_service_iam_member" "invoker_crux" {
+  project  = var.project_id
+  location = google_cloudfunctions2_function.crux.location
+  service  = google_cloudfunctions2_function.crux.name
+  role     = "roles/run.invoker"
+  member   = "serviceAccount:${var.service_account_email}"
 }
 
 
@@ -191,7 +212,10 @@ resource "google_cloud_scheduler_job" "scheduler_job_psi" {
 
   http_target {
     http_method = "GET"
-    uri         = "https://${google_cloudfunctions_function.psi.region}-${var.project_id}.cloudfunctions.net/${local.cf_name_psi}"
+    uri         = google_cloudfunctions2_function.psi.service_config[0].uri
+    oidc_token {
+      service_account_email = var.service_account_email
+    }
   }
 }
 
@@ -208,6 +232,9 @@ resource "google_cloud_scheduler_job" "scheduler_job_crux" {
 
   http_target {
     http_method = "GET"
-    uri         = "https://${google_cloudfunctions_function.psi.region}-${var.project_id}.cloudfunctions.net/${local.cf_name_crux}"
+    uri         = google_cloudfunctions2_function.crux.service_config[0].uri
+    oidc_token {
+      service_account_email = var.service_account_email
+    }
   }
 }
