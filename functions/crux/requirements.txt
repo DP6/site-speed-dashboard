@@ -3,3 +3,4 @@
 google-cloud-bigquery>=2.20.0
 google-cloud-storage>=1.40.0
 google-cloud>=0.34.0
+functions-framework>=3.0.0
