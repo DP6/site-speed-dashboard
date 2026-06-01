@@ -48,7 +48,7 @@
     "type": "FLOAT"
   },
   {
-    "name": "fid_density",
+    "name": "inp_density",
     "type": "FLOAT"
   },
   {
@@ -120,15 +120,15 @@
     "type": "FLOAT"
   },
   {
-    "name": "good_fid",
+    "name": "good_inp",
     "type": "FLOAT"
   },
   {
-    "name": "poor_fid",
+    "name": "poor_inp",
     "type": "FLOAT"
   },
   {
-    "name": "average_fid",
+    "name": "average_inp",
     "type": "FLOAT"
   },
   {

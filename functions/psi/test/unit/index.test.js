@@ -78,17 +78,14 @@ describe('Template Cloud Function', () => {
       expect(response.speedResults[0]).to.have.own.property('Device');
       expect(response.speedResults[0]).to.have.own.property('Score');
       expect(response.speedResults[0]).to.have.own.property('LAB_FCP');
-      expect(response.speedResults[0]).to.have.own.property('LAB_FMP');
-      expect(response.speedResults[0]).to.have.own.property('LAB_FCPUIdle');
       expect(response.speedResults[0]).to.have.own.property('LAB_SpeedIndex');
       expect(response.speedResults[0]).to.have.own.property('LAB_TTI');
-      expect(response.speedResults[0]).to.have.own.property('LAB_InputLatency');
       expect(response.speedResults[0]).to.have.own.property('LAB_TTFB');
       expect(response.speedResults[0]).to.have.own.property('LAB_RenderBlocking');
       expect(response.speedResults[0]).to.have.own.property('LAB_TBT');
       expect(response.speedResults[0]).to.have.own.property('LAB_CLS');
       expect(response.speedResults[0]).to.have.own.property('LAB_LCP');
-      expect(response.speedResults[0]).to.have.own.property('LAB_FID');
+      expect(response.speedResults[0]).to.have.own.property('LAB_INP');
     });
   });
 
@@ -106,17 +103,14 @@ describe('Template Cloud Function', () => {
       expect(response.speedResults[0]).to.have.own.property('Device');
       expect(response.speedResults[0]).to.have.own.property('Score');
       expect(response.speedResults[0]).to.have.own.property('LAB_FCP');
-      expect(response.speedResults[0]).to.have.own.property('LAB_FMP');
-      expect(response.speedResults[0]).to.have.own.property('LAB_FCPUIdle');
       expect(response.speedResults[0]).to.have.own.property('LAB_SpeedIndex');
       expect(response.speedResults[0]).to.have.own.property('LAB_TTI');
-      expect(response.speedResults[0]).to.have.own.property('LAB_InputLatency');
       expect(response.speedResults[0]).to.have.own.property('LAB_TTFB');
       expect(response.speedResults[0]).to.have.own.property('LAB_RenderBlocking');
       expect(response.speedResults[0]).to.have.own.property('LAB_TBT');
       expect(response.speedResults[0]).to.have.own.property('LAB_CLS');
       expect(response.speedResults[0]).to.have.own.property('LAB_LCP');
-      expect(response.speedResults[0]).to.have.own.property('LAB_FID');
+      expect(response.speedResults[0]).to.have.own.property('LAB_INP');
     });
   });
 });

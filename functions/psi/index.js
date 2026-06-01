@@ -6,7 +6,6 @@ const PROJECT_FOLDER = 'config';
 const PSI_KEY = process.env.PSI_KEY;
 let projectConfig = {};
 let debugging = false;
-let fid;
 
 /**
  * Gets urls and processes data.
@@ -81,7 +80,6 @@ async function makeRequest(urls, strategy) {
  * @return {Object} LHResult
  */
 function _formatLightHouseResult(date, brand, page, URL, lighthouseResult) {
-  fid = lighthouseResult.audits['max-potential-fid'].numericValue || null;
   return {
     Data: date,
     Brand: brand,
@@ -90,16 +88,14 @@ function _formatLightHouseResult(date, brand, page, URL, lighthouseResult) {
     Device: lighthouseResult.configSettings.emulatedFormFactor,
     Score: lighthouseResult.categories.performance.score,
     LAB_FCP: lighthouseResult.audits['first-contentful-paint']?.numericValue || null,
-    LAB_FMP: lighthouseResult.audits['first-meaningful-paint']?.numericValue || null,
-    LAB_FCPUIdle: lighthouseResult.audits['first-cpu-idle']?.numericValue || null,
     LAB_SpeedIndex: lighthouseResult.audits['speed-index']?.numericValue || null,
     LAB_TTI: lighthouseResult.audits['interactive']?.numericValue || null,
-    LAB_InputLatency: lighthouseResult.audits['estimated-input-latency']?.numericValue || null,
     LAB_TTFB: lighthouseResult.audits['server-response-time']?.numericValue || null,
     LAB_RenderBlocking: lighthouseResult.audits['render-blocking-resources']?.numericValue || null,
     LAB_TBT: lighthouseResult.audits['total-blocking-time']?.numericValue || null,
     LAB_CLS: lighthouseResult.audits['cumulative-layout-shift']?.numericValue || null,
     LAB_LCP: lighthouseResult.audits['largest-contentful-paint']?.numericValue || null,
+    LAB_INP: lighthouseResult.audits['interaction-to-next-paint']?.numericValue || null,
   };
 }
 
@@ -114,10 +110,10 @@ function _formatLoadingResult({ metrics, overall_category }) {
   const mock = {
     CUMULATIVE_LAYOUT_SHIFT_SCORE: { category: null, percentile: null },
     FIRST_CONTENTFUL_PAINT_MS: { category: null, percentile: null },
-    FIRST_INPUT_DELAY_MS: { category: null, percentile: null },
+    INTERACTION_TO_NEXT_PAINT: { category: null, percentile: null },
     LARGEST_CONTENTFUL_PAINT_MS: { category: null, percentile: null },
   };
-  let { CUMULATIVE_LAYOUT_SHIFT_SCORE, FIRST_CONTENTFUL_PAINT_MS, FIRST_INPUT_DELAY_MS, LARGEST_CONTENTFUL_PAINT_MS } =
+  let { CUMULATIVE_LAYOUT_SHIFT_SCORE, FIRST_CONTENTFUL_PAINT_MS, INTERACTION_TO_NEXT_PAINT, LARGEST_CONTENTFUL_PAINT_MS } =
     metrics || mock;
 
   return {
@@ -125,12 +121,11 @@ function _formatLoadingResult({ metrics, overall_category }) {
     Loading_CLS: CUMULATIVE_LAYOUT_SHIFT_SCORE?.percentile || null,
     Loading_FCP_Category: FIRST_CONTENTFUL_PAINT_MS?.category || null,
     Loading_FCP: FIRST_CONTENTFUL_PAINT_MS?.percentile || null,
-    Loading_FID_Category: FIRST_INPUT_DELAY_MS?.category || null,
-    Loading_FID: FIRST_INPUT_DELAY_MS?.percentile || null,
+    Loading_INP_Category: INTERACTION_TO_NEXT_PAINT?.category || null,
+    Loading_INP: INTERACTION_TO_NEXT_PAINT?.percentile || null,
     Loading_LCP_Category: LARGEST_CONTENTFUL_PAINT_MS?.category || null,
     Loading_LCP: LARGEST_CONTENTFUL_PAINT_MS?.percentile || null,
     Loading_Overall_Category: overall_category || null,
-    LAB_FID: fid,
   };
 }
 

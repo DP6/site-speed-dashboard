@@ -86,18 +86,18 @@ def crux_query(countries,domains,table_suffix):
             GROUP BY 1,2,3,4,5,6
             ORDER BY start
         ),
-        fid AS 
-        (          --- FID
-            SELECT 
+        inp AS
+        (          --- INP
+            SELECT
                 year_month,
-                origin, 
+                origin,
                 bin.start start,
                 bin.end ended,
                 effective_connection_type.name AS connection,
                 form_factor.name AS form,
                 sum(bin.density) density
-            FROM base_crux 
-                LEFT JOIN UNNEST(first_input.delay.histogram.bin) AS bin
+            FROM base_crux
+                LEFT JOIN UNNEST(interaction_to_next_paint.histogram.bin) AS bin
             GROUP BY 1,2,3,4,5,6
             ORDER BY start
         ),
@@ -134,19 +134,19 @@ def crux_query(countries,domains,table_suffix):
         base_final AS 
         ( 
             SELECT 
-                COALESCE(lcp.year_month,fcp.year_month,dcl.year_month,onload.year_month,fp.year_month,fid.year_month,ttfb.year_month,cls.year_month ) AS year_month,
-                COALESCE(lcp.start,fcp.start,dcl.start,onload.start,fp.start,fid.start,ttfb.start,cls.start) AS start,
-                COALESCE(lcp.ended,fcp.ended,dcl.ended,onload.ended,fp.ended,fid.ended,ttfb.ended,cls.ended) AS ended,
-                COALESCE(lcp.form,fcp.form,dcl.form,onload.form,fp.form,fid.form,ttfb.form,cls.form) AS form,
-                COALESCE(lcp.origin,fcp.origin,dcl.origin,onload.origin,fp.origin,fid.origin,ttfb.origin,cls.origin) AS origin,
-                COALESCE(lcp.connection,fcp.connection,dcl.connection,onload.connection,fp.connection,fid.connection,ttfb.connection,cls.connection) AS connection,
+                COALESCE(lcp.year_month,fcp.year_month,dcl.year_month,onload.year_month,fp.year_month,inp.year_month,ttfb.year_month,cls.year_month ) AS year_month,
+                COALESCE(lcp.start,fcp.start,dcl.start,onload.start,fp.start,inp.start,ttfb.start,cls.start) AS start,
+                COALESCE(lcp.ended,fcp.ended,dcl.ended,onload.ended,fp.ended,inp.ended,ttfb.ended,cls.ended) AS ended,
+                COALESCE(lcp.form,fcp.form,dcl.form,onload.form,fp.form,inp.form,ttfb.form,cls.form) AS form,
+                COALESCE(lcp.origin,fcp.origin,dcl.origin,onload.origin,fp.origin,inp.origin,ttfb.origin,cls.origin) AS origin,
+                COALESCE(lcp.connection,fcp.connection,dcl.connection,onload.connection,fp.connection,inp.connection,ttfb.connection,cls.connection) AS connection,
 
                 COALESCE(fcp.density,0) fcp_density,
                 COALESCE(lcp.density,0) lcp_density,
                 COALESCE(dcl.density,0) dcl_density,
                 COALESCE(onload.density,0) onload_density,
                 COALESCE(fp.density,0) fp_density,
-                COALESCE(fid.density,0) fid_density,
+                COALESCE(inp.density,0) inp_density,
                 COALESCE(ttfb.density,0) ttfb_density,
                 COALESCE(cls.density,0) cls_density
             FROM lcp
@@ -154,7 +154,7 @@ def crux_query(countries,domains,table_suffix):
                 FULL OUTER JOIN dcl using(year_month,start,form,origin,connection,ended)
                 FULL OUTER JOIN onload using(year_month,start,form,origin,connection,ended)
                 FULL OUTER JOIN fp using(year_month,start,form,origin,connection,ended)
-                FULL OUTER JOIN fid using(year_month,start,form,origin,connection,ended)
+                FULL OUTER JOIN inp using(year_month,start,form,origin,connection,ended)
                 FULL OUTER JOIN ttfb using(year_month,start,form,origin,connection,ended)
                 FULL OUTER JOIN cls using(year_month,start,form,origin,connection,ended)
         ),
@@ -164,7 +164,7 @@ def crux_query(countries,domains,table_suffix):
             SELECT 
                 [
                     STRUCT("LCP"  AS metric, 2500 AS min, 4000 AS max),
-                    STRUCT("FID"  AS metric, 100  AS min, 300  AS max),
+                    STRUCT("INP"  AS metric, 200  AS min, 500  AS max),
                     STRUCT("CLS"  AS metric, 0.10 AS min, 0.25 AS max),
                     STRUCT("FCP"  AS metric, 1500 AS min, 2500 AS max),
                     STRUCT("TTFB" AS metric, 500  AS min, 1500 AS max),
@@ -199,9 +199,9 @@ def crux_query(countries,domains,table_suffix):
             IF(start >= (SELECT max from UNNEST(limits) WHERE metric = "DCL") ,dcl_density,0) AS poor_dcl,
             IF(start >= (SELECT min from UNNEST(limits) WHERE metric = "DCL") and start < (SELECT max from UNNEST(limits) WHERE metric = "DCL") ,dcl_density,0) AS average_dcl,
 
-            IF(start <  (SELECT min from UNNEST(limits) WHERE metric = "FID") ,fid_density,0) AS good_fid,
-            IF(start >= (SELECT max from UNNEST(limits) WHERE metric = "FID") ,fid_density,0) AS poor_fid,
-            IF(start >= (SELECT min from UNNEST(limits) WHERE metric = "FID") and start < (SELECT max from UNNEST(limits) WHERE metric = "FID") ,fid_density,0) AS average_fid,
+            IF(start <  (SELECT min from UNNEST(limits) WHERE metric = "INP") ,inp_density,0) AS good_inp,
+            IF(start >= (SELECT max from UNNEST(limits) WHERE metric = "INP") ,inp_density,0) AS poor_inp,
+            IF(start >= (SELECT min from UNNEST(limits) WHERE metric = "INP") and start < (SELECT max from UNNEST(limits) WHERE metric = "INP") ,inp_density,0) AS average_inp,
 
             IF(start <  (SELECT min from UNNEST(limits) WHERE metric = "CLS") ,cls_density,0) AS good_cls,
             IF(start >= (SELECT max from UNNEST(limits) WHERE metric = "CLS") ,cls_density,0) AS poor_cls,
