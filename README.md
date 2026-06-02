@@ -17,9 +17,22 @@
   </a>
 </p>
 
-Site Speed Dashboard is an open source tool developed by DP6 to help you measure performance in your websites. The project is structured in [Google Cloud Plataform](https://console.cloud.google.com) (GCP) and composed of a JS script that will extract simulated data from Google's [PageSpeed Insights](https://developers.google.com/speed/docs/insights/v5/about) API, and a Python script that will extract real data from Google's [Chrome User Experience Report](https://developers.google.com/web/tools/chrome-user-experience-report) public dataset in Google BigQuery.
+Site Speed Dashboard is an open source tool developed by DP6 to help you measure performance in your websites. The project is structured in [Google Cloud Platform](https://console.cloud.google.com) (GCP) and composed of a JS script that will extract simulated data from Google's [PageSpeed Insights](https://developers.google.com/speed/docs/insights/v5/about) API, and a Python script that will extract real data from Google's [Chrome User Experience Report](https://developers.google.com/web/tools/chrome-user-experience-report) public dataset in Google BigQuery.
 
-All this data is then stored in BigQuery's tables and connected to a Google Data Studio Dashboard in order to help you visualize the data and get insights in how to improve performance!
+All this data is then stored in BigQuery's tables and connected to a Google Looker Studio Dashboard in order to help you visualize the data and get insights in how to improve performance!
+
+Both jobs run as **Cloud Run Jobs**, triggered daily by Cloud Scheduler.
+
+### Core Web Vitals tracked
+| Metric | Type | Good | Needs Improvement | Poor |
+|--------|------|------|-------------------|------|
+| LCP | Real (CrUX) + Lab (PSI) | < 2.5s | 2.5s – 4s | > 4s |
+| INP | Real (CrUX) + Lab (PSI) | < 200ms | 200ms – 500ms | > 500ms |
+| CLS | Real (CrUX) + Lab (PSI) | < 0.1 | 0.1 – 0.25 | > 0.25 |
+| FCP | Real (CrUX) + Lab (PSI) | < 1.8s | 1.8s – 3s | > 3s |
+| TTFB | Real (CrUX) + Lab (PSI) | < 800ms | 800ms – 1.8s | > 1.8s |
+
+> **Note:** FID (First Input Delay) has been replaced by INP (Interaction to Next Paint) as of 2024, following Google's Core Web Vitals update.
 
 # Content
 - [Disclaimer Crux](#disclaimer-crux)
@@ -45,14 +58,15 @@ This project creates resources in Google Cloud Plataform to extract and store da
 During terraform's execution, these resources will be created:
 - Cloud Storage
 - BigQuery
-- Cloud Function
+- Cloud Run Jobs
 - Cloud Scheduler
 
-And in order for the creation to succeed, you'll need to active the following:
-- Cloud Storage
+And in order for the creation to succeed, you'll need to activate the following APIs:
+- Cloud Storage API
 - BigQuery API
-- Cloud Functions API
+- Cloud Run API
 - Cloud Build API
+- Artifact Registry API
 - Cloud Resource Manager API
 - BigQuery Data Transfer API
 - Cloud Scheduler API
@@ -62,9 +76,10 @@ If you are not familiar with activating resouces in GCP, follow [this](https://c
 ## **Service Account**
 After the activation, you'll need to create a [Service Account](https://cloud.google.com/iam/docs/creating-managing-service-accounts) with the following permissions:
 - Storage Admin
-- Cloud Functions Admin
+- Cloud Run Admin
 - BigQuery Admin
 - Service Account User
+- Logs Writer
 
 ## **Next Steps**
 
@@ -76,13 +91,17 @@ We personally recommend using Google Cloud Shell because of its facility, as you
 
 In order for the code to run locally, you'll need to install the following:
 
-- Package [zip](https://www.tecmint.com/install-zip-and-unzip-in-linux/)
-- Package [unzip](https://www.tecmint.com/install-zip-and-unzip-in-linux/)
-- Package [curl](https://www.tecmint.com/install-curl-in-linux/)
 - [Google Cloud SDK](https://cloud.google.com/sdk/docs/install?hl=pt-br)
 - [Terraform](https://www.terraform.io/downloads.html)
+- [Docker](https://docs.docker.com/get-docker/) (required to build Cloud Run Job images)
 
-After that, you'll need to set GOOGLE_APPLICATION_CREDENTIALS environment variable with the service account key. You can download this key from GCP, in the same place where the service account was created. If you're not familiar with setting environment variables, follow [this](https://cloud.google.com/docs/authentication/getting-started#setting_the_environment_variable) guide.
+After that, you'll need to authenticate with gcloud and set the project:
+
+```console
+gcloud auth login
+gcloud config set project YOUR_PROJECT_ID
+gcloud auth application-default login
+```
 
   
 # Installation
@@ -91,22 +110,33 @@ After that, you'll need to set GOOGLE_APPLICATION_CREDENTIALS environment variab
 
 To be able to get PSI data, you'll need an API key, which you can get in [this](https://developers.google.com/speed/docs/insights/v5/get-started) link, which will automatically create a key and return its value. You can also create an API key directly in the [credentials page](https://console.developers.google.com/apis/credentials) in GCP.
 
-## Running Terraform Script
+## Running the Deploy Script
 
-Clone this project into you local computer or to Cloud Shell.
+Clone this project into your local computer or to Cloud Shell.
 
 ```console
 git clone https://github.com/DP6/site-speed-dashboard.git
+cd site-speed-dashboard/
 ```
 
-After that, run the following:
+Run the deploy script passing your `project_prefix` and `project_id` as arguments:
 
 ```console
-cd site-speed-dashboard/
-sh terraform_deploy.sh
+sh terraform_deploy.sh <project_prefix> <project_id> [region]
 ```
 
-Wait for the code to run and after finishing, check GCP in order to confirm if the resources were created successfully.
+Example:
+
+```console
+sh terraform_deploy.sh mkt-data mkt-data-analytics us-central1
+```
+
+The script will:
+1. Build and deploy the **PSI Cloud Run Job** from source
+2. Build and deploy the **CrUX Cloud Run Job** from source
+3. Run `terraform init && terraform apply` to provision the remaining infrastructure (BigQuery, Cloud Storage, Cloud Scheduler, IAM)
+
+Wait for the execution to finish and check GCP to confirm the resources were created successfully.
 
 # Configuration
 
