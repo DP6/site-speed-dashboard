@@ -113,8 +113,12 @@ function _formatLoadingResult({ metrics, overall_category }) {
     INTERACTION_TO_NEXT_PAINT: { category: null, percentile: null },
     LARGEST_CONTENTFUL_PAINT_MS: { category: null, percentile: null },
   };
-  let { CUMULATIVE_LAYOUT_SHIFT_SCORE, FIRST_CONTENTFUL_PAINT_MS, INTERACTION_TO_NEXT_PAINT, LARGEST_CONTENTFUL_PAINT_MS } =
-    metrics || mock;
+  let {
+    CUMULATIVE_LAYOUT_SHIFT_SCORE,
+    FIRST_CONTENTFUL_PAINT_MS,
+    INTERACTION_TO_NEXT_PAINT,
+    LARGEST_CONTENTFUL_PAINT_MS,
+  } = metrics || mock;
 
   return {
     Loading_CLS_Category: CUMULATIVE_LAYOUT_SHIFT_SCORE?.category || null,
@@ -251,7 +255,7 @@ async function insertRowsAsStream(data, schema, tableId) {
   } catch (err) {
     console.error(`INSERT ERROR into ${tableId}:`, err.name, JSON.stringify(err));
     if (err.errors) {
-      err.errors.forEach(e => console.error('Row error:', JSON.stringify(e)));
+      err.errors.forEach((e) => console.error('Row error:', JSON.stringify(e)));
     }
     throw err;
   }
@@ -279,7 +283,7 @@ function insertHandler(err, apiResponse) {
   if (err) {
     console.error('INSERT ERROR:', err.name, JSON.stringify(err));
     if (err.errors) {
-      err.errors.forEach(e => console.error('Row error:', JSON.stringify(e)));
+      err.errors.forEach((e) => console.error('Row error:', JSON.stringify(e)));
     }
   } else {
     console.log('INSERT SUCCESS:', JSON.stringify(apiResponse));

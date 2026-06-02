@@ -7,7 +7,7 @@ runJob()
     console.log('PSI Job finished successfully');
     process.exit(0);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error('PSI Job failed:', err);
     process.exit(1);
   });
