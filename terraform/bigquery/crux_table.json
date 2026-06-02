@@ -24,10 +24,6 @@
     "type": "STRING"
   },
   {
-    "name": "connection",
-    "type": "STRING"
-  },
-  {
     "name": "fcp_density",
     "type": "FLOAT"
   },
